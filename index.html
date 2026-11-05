@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>肺栓塞風險分層</title>
-<meta name="description" content="急性肺栓塞風險分層：ESC 2019 與 AHA/ACC 2026 臨床分類、處置與劑量，附 8 例示範病例、20 題考題與心智圖。">
+<meta name="description" content="急性肺栓塞風險分層：ESC 2019 與 AHA/ACC 2026 臨床分類、處置與劑量，附 8 例示範病例、20 題考題、心智圖與台灣健保給付對照。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -163,6 +163,16 @@ details>summary{cursor:pointer;font-weight:700}
 .advc.bad{border-color:var(--crit)}.advc.bad b{color:var(--crit)}
 .advc.out{opacity:.72;border-style:dashed}
 @media (max-width:480px){.adv{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* 健保 */
+.tblwrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.nhit{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+.nhit th,.nhit td{padding:9px 11px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.nhit thead th{font-family:var(--f-label);font-size:12.5px;color:var(--muted);background:var(--surface-2)}
+.nhit tbody tr:last-child>*{border-bottom:0}
+.nhit th[scope=row]{white-space:nowrap}
+.nst{display:block;font-size:11.5px;font-weight:600;margin-top:2px}
+.nst.ok{color:var(--ok)}.nst.warn{color:var(--warn)}.nst.bad{color:var(--crit)}
+.nhin{display:block;color:var(--accent);margin-top:2px}
 /* 教學 */
 .intro h2{font-size:20px}
 .between{justify-content:space-between;align-items:flex-end}
@@ -227,6 +237,7 @@ details>summary{cursor:pointer;font-weight:700}
   <div class="view" id="view-cases" hidden><div class="view" id="cases"></div></div>
   <div class="view" id="view-quiz" hidden><div class="view" id="quiz"></div></div>
   <div class="view" id="view-map" hidden><div class="view" id="map"></div></div>
+  <div class="view" id="view-nhi" hidden><div class="view" id="nhi"></div></div>
   <footer>
     <div class="disclaimer"><b>僅供臨床決策輔助與教學，不取代臨床判斷與 PE 團隊（PERT）討論。</b>血栓溶解與抗凝血藥物請依院內規範與出血風險評估。資料只存在這台裝置的瀏覽器，不會上傳；請只記錄床號。</div>
     <div>
@@ -237,6 +248,8 @@ details>summary{cursor:pointer;font-weight:700}
         <li>Jiménez D, et al. Simplification of the PESI (sPESI). <i>Arch Intern Med</i> 2010;170:1383–1389；Aujesky D, et al. PESI. <i>Am J Respir Crit Care Med</i> 2005;172:1041–1046。</li>
         <li>Rosenfield K, Klok FA, Piazza G, et al. Ultrasound-Facilitated, Catheter-Directed Fibrinolysis for Acute Pulmonary Embolism（HI-PEITHO）. <i>N Engl J Med</i> 2026;394:1979–1990. <a href="https://doi.org/10.1056/NEJMoa2516567">doi:10.1056/NEJMoa2516567</a></li>
         <li>PEITHO 數據引自 AHA/ACC 2026 內文。</li>
+        <li>衛生福利部中央健康保險署：藥品給付規定第二節（115.9.22）、附表二-A、健保用藥品項查詢（115.11.5）。</li>
+        <li>台灣仿單：栓體舒 Actilyse（2025-10-27）、克立生 Clexane（2025-10-29），經藥品仿單查詢平台（reg.802.mnd.gov.tw）閱覽。</li>
       </ol>
     </div>
   </footer>
@@ -358,7 +371,7 @@ function escPlan(c){
     `立即給 UFH（含負荷劑量）${C1('I C')}`,
     `全身性血栓溶解${C1('I B')}${c.absCI?'　<b>有絕對禁忌</b>：改外科取栓或導管治療':c.relCI?'　有相對禁忌：評估出血風險':''}`,
     `溶栓禁忌或失敗：外科取栓${C1('I C')}；經皮導管治療可作為替代${Cx('IIa C')}`,
-    `低血壓：norepinephrine 和／或 dobutamine${Cx('IIa C')}；避免大量輸液`,
+    `低血壓：norepinephrine 和／或 dobutamine${Cx('IIa C')}；避免積極輸液，CVP 低時才謹慎給 ≤500 mL`,
     `ECMO 可與外科取栓或導管治療合併使用${Cx('IIb C')}`];
   if(c.esc==='imh')return [
     `抗凝血：LMWH 或 fondaparinux 優於 UFH${C1('I A')}`,
@@ -403,17 +416,22 @@ function ahaPlan(c,Pin){
     `全身性溶栓合理（出血風險可接受時）${Cx('2a C-LD')}${c.absCI?'　<b>有溶栓絕對禁忌</b>：以 VA-ECMO 為主':''}`,`外科取栓不建議${C3('3: NB B-NR')}`,sed];
 }
 /* 抗凝血的特殊族群提示 */
+/* ESC 2019 第 6.7 節註 d */
+function noacRenal(cr){
+  if(!isFinite(cr)||cr>=30)return '';
+  return cr<15?'ESC：CrCl <15 不建議 rivaroxaban、apixaban、edoxaban、dabigatran':'ESC：CrCl 15–29 時 rivaroxaban、apixaban 需謹慎，edoxaban 30 mg qd，不建議 dabigatran';
+}
 function popNotes(Pin){
   const P=normalizeP(Pin),out=[],cr=n(P.crcl);
-  if(P.pop.preg)out.push(`懷孕：LMWH 或 UFH${C1('1 C-LD')}；DOAC 與 warfarin 可能有害${C3('3: Harm C-LD')}`);
-  if(P.pop.bf)out.push(`哺乳：LMWH、UFH 或 warfarin 優於 DOAC${C1('1 C-LD')}`);
-  if(P.pop.aps)out.push(`確診血栓性 APS：VKA 優於 DOAC${C1('1 A')}（僅單一抗體陽性時 DOAC 可為替代${Cx('2b B-R')}）`);
+  if(P.pop.preg)out.push(`懷孕：LMWH 或 UFH${C1('1 C-LD')}；DOAC 與 warfarin 可能有害${C3('3: Harm C-LD')}；ESC 不建議 NOAC${C3('III C')}`);
+  if(P.pop.bf)out.push(`哺乳：LMWH、UFH 或 warfarin 優於 DOAC${C1('1 C-LD')}；ESC 不建議 NOAC${C3('III C')}`);
+  if(P.pop.aps)out.push(`確診血栓性 APS：VKA 優於 DOAC${C1('1 A')}（僅單一抗體陽性時 DOAC 可為替代${Cx('2b B-R')}）；ESC 不建議 NOAC${C3('III C')}`);
   if(P.pop.childB)out.push(`Child-Pugh B：DOAC 取代 VKA 可能合理${Cx('2b C-LD')}`);
   if(P.pop.childC)out.push(`Child-Pugh C：不建議 DOAC 取代 VKA${C3('3: Harm C-LD')}`);
   if(P.pop.brain)out.push(`腦腫瘤：DOAC 可考慮優於 LMWH，以降低顱內出血${Cx('2b C-LD')}`);
   if(P.pop.cancer)out.push(`活動性癌症：延長期用 DOAC 或 LMWH，優於 VKA${C1('1 A')}`);
   if(P.pop.noac)out.push(`無法耐受抗凝血：IVC filter 有用${Cx('2a B-R')}，選可回收型${C1('1 B-R')}，風險下降後盡快取出${C1('1 C-LD')}`);
-  if(isFinite(cr)&&cr<30)out.push(`CrCl <30：用 LMWH 時監測 anti-Xa 合理${Cx('2a C-LD')}；CKD 4–5 或透析，apixaban 是否優於 VKA 不確定${Cx('2b B-NR')}；ESC 建議此時用 UFH`);
+  if(isFinite(cr)&&cr<30)out.push(`CrCl <30：用 LMWH 時監測 anti-Xa 合理${Cx('2a C-LD')}；CKD 4–5 或透析，apixaban 是否優於 VKA 不確定${Cx('2b B-NR')}；ESC 建議此時用 UFH；${noacRenal(cr)}`);
   return out;
 }
 function doses(Pin){
@@ -422,10 +440,26 @@ function doses(Pin){
     ufh:hasW?Math.round(80*w)+' U → '+Math.round(18*w)+' U/h':'—',
     enox:hasW?Math.round(w)+' mg '+(lowCr?'q24h':'q12h'):'—',
     fonda:lowCr?'CrCl <30 禁用':hasW?(w<50?'5 mg':w<=100?'7.5 mg':'10 mg')+' qd':'—',
+    tinz:hasW?Math.round(175*w)+' IU qd':'—',
+    std:hasW&&w<65?r1(1.5*w)+' mg，2 小時':'100 mg，2 小時',stdCap:hasW&&w<65,
     accel:hasW?Math.min(50,r1(0.6*w))+' mg，15 分鐘':'0.6 mg/kg，15 分鐘',
     avoidDoac:!!P.pop.preg,lowCr};
 }
-return {n,newP,normalizeP,HEMO,HYPO,RESP,SCORE,SPESI_KEYS,RV,CI_ABS,CI_REL,POP,ESC_NAME,calc,escPlan,ahaPlan,ADV,popNotes,doses};
+/* 健保與台灣藥品：115.11.5 查詢。給付規定第二節 115.9.22 版 */
+const NHI=[
+ {d:'Apixaban',st:'ok',item:'給付中 9 品項（Eliquis 等）',rule:'2.1.4.3 第 2 項：含肺栓塞。須影像或血管超音波診斷；第 1–7 日每日 2 次、每次 2 顆，第 8 日起每次 1 顆；每 6 個月評估。',label:'台灣仿單列 DVT／PE 復發預防 2.5 mg bid（僅讀到摘錄）'},
+ {d:'Rivaroxaban',st:'ok',item:'給付中 24 品項（Xarelto 等）',rule:'2.1.4.2 第 3 項：含肺栓塞。須影像或血管超音波診斷；第 1–21 日每日 2 次、第 22 日起每日 1 次，每次 1 粒；每 6 個月評估。',label:'台灣仿單未讀'},
+ {d:'Edoxaban',st:'ok',item:'給付中 8 品項（Lixiana 等）',rule:'2.1.4.4 第 2 項：含肺栓塞。須影像或血管超音波診斷；至少 5 日注射抗凝血後，每日 1 次 1 顆；每 6 個月評估。',label:'台灣仿單：至少 5 日注射後 60 mg qd（摘錄）'},
+ {d:'Dabigatran',st:'ok',item:'給付中 6 品項（Pradaxa 等）',rule:'2.1.5 第 3 項：含肺栓塞。須影像或血管超音波診斷；至少 5 日注射抗凝血後，每次 ≤150 mg bid，持續治療 6 個月。',label:'台灣仿單列治療成人急性 DVT 及／或 PE（2024-10-08 版摘錄）'},
+ {d:'Enoxaparin',st:'warn',item:'給付中 2 品項（Clexane）',rule:'2.1.3.2：列治療 DVT（每療程 <10 天）、ACS、術後預防，<b>未列肺栓塞</b>。',label:'台灣仿單（2025-10-29）第 1 頁適應症未見肺栓塞；後續頁未讀完'},
+ {d:'Tinzaparin',st:'ok',item:'給付中 1 品項（Innohep 10,000 IU/mL）',rule:'2.1.3.1 第 3 項：<b>用於治療肺栓塞</b>。',label:'台灣仿單未讀；175 IU/kg qd 引自國外資料'},
+ {d:'UFH',st:'ok',item:'給付中（如 Agglutex）',rule:'第二節未列 UFH 專屬限制。',label:'台灣仿單未讀'},
+ {d:'Fondaparinux',st:'bad',item:'<b>無給付中品項</b>（Arixtra 僅有歷史紀錄）',rule:'2.1.4.1：列 STEMI、UA／NSTEMI、關節置換術後預防，未列肺栓塞。',label:'台灣現況與仿單未確認'},
+ {d:'Warfarin',st:'ok',item:'給付中 11 品項',rule:'第二節未列專屬限制。',label:'台灣仿單未讀'},
+ {d:'Alteplase',st:'warn',item:'給付中僅 Actilyse 50 mg（17,815 元／瓶）；20 mg 自 114.9.1 起健保價 0',rule:'2.1.2.1：懷疑有急性肺動脈栓塞可用。限具心臟專科醫師之醫院；有出血傾向或最近手術、出血者應避免；用前查血小板與凝血功能；填附表二-A 隨費用申報。',label:'台灣仿單（2025-10-27）：急性大片肺栓塞；100 mg 給 2 小時，<65 kg 總量 ≤1.5 mg/kg'},
+ {d:'Tenecteplase',st:'bad',item:'<b>無給付中品項</b>：Metalyse 自 114.1.1 起健保價 0',rule:'2.1.2.1 條文仍列 tenecteplase。',label:'台灣仿單未讀；PEITHO 試驗使用此藥，台灣供貨現況未確認'}
+];
+return {NHI,noacRenal,n,newP,normalizeP,HEMO,HYPO,RESP,SCORE,SPESI_KEYS,RV,CI_ABS,CI_REL,POP,ESC_NAME,calc,escPlan,ahaPlan,ADV,popNotes,doses};
 })();
 /*ENGINE-END*/
 
@@ -471,7 +505,7 @@ const CASES=[
  q:'MAP 78 與 HI-PEITHO 如何影響你的決定？',
  P:{age:'64',sex:'M',loc:'prox',pe:{hr:true},rv:{ratio:true,tapse:true},trop:'up',bnp:'up',wt:'84',crcl:'80'},
  expect:{esc:'imh',aha:'C3'},
- why:['ESC 中高風險、AHA/ACC C3：先用 LMWH（1 B-R），啟動 PERT，監測 24–72 小時。','MAP <80 可協助找出可能需要升級治療者（2a B-NR）。','指引：全身溶栓、CDL、機械取栓在 C3 都是 2b；ESC 不建議常規溶栓（III B），惡化才救援。','此人符合 HI-PEITHO 納入條件：RV/LV ≥1.0、troponin 上升，且 SBP ≤110、HR ≥100、RR >20 中 ≥2 項。','HI-PEITHO：7 天複合事件 4.0% vs 10.3%（RR 0.39），主要差在心肺惡化；7 天大出血 4.1% vs 2.2%（P=0.32）。廠商贊助，且晚於指引文獻檢索。'],
+ why:['ESC 中高風險、AHA/ACC C3：先用 LMWH（1 B-R），啟動 PERT，監測 24–72 小時。','MAP <80 可協助找出可能需要升級治療者（2a B-NR）。','指引：全身溶栓、CDL、機械取栓在 C3 都是 2b；ESC 不建議常規溶栓（III B），惡化才救援。','此人符合 HI-PEITHO 納入條件：RV/LV ≥1.0、troponin 上升，且 SBP ≤110、HR ≥100、RR >20 中 ≥2 項。','HI-PEITHO：7 天複合事件 4.0% vs 10.3%（RR 0.39），主要差在心肺惡化；7 天大出血 4.1% vs 2.2%（P=0.32）。廠商贊助，且晚於指引文獻檢索。','台灣健保：tinzaparin 條文列肺栓塞；enoxaparin 條文未列，開立前請確認院內規範。'],
  pit:'試驗結果沒有改變指引的 COR。是否介入要交給 PERT，並說明這是指引之後的新證據。'},
 {id:'c6',title:'血壓正常的休克，手術後 6 天',tag:'D2-R · 溶栓禁忌',
  story:'57 歲女性，脊椎手術後第 6 天突發喘與冒汗。CTPA：騎跨型栓塞。',
@@ -487,8 +521,8 @@ const CASES=[
  q:'再灌流怎麼選？heparin 用哪一種？',
  P:{age:'59',sex:'M',hemo:'persist',loc:'prox',hypo:{lac:true,ams:true},pe:{hr:true,sbp:true,ams:true},resp:{c:true},rv:{ratio:true},trop:'up',wt:'80',crcl:'60'},
  expect:{esc:'high',aha:'E1'},
- why:['ESC 高風險、AHA/ACC E1。','全身溶栓：ESC I B；AHA/ACC 2a C-LD。Alteplase 100 mg 輸注 2 小時。','AHA/ACC E1 中 CDL、機械取栓、外科取栓也都是 2a，依現場能力由 PERT 決定。','兩份指引在 heparin 上不同：ESC 高風險用 UFH 含負荷（I C）；AHA/ACC C1–E1 建議 LMWH 優於 UFH（1 B-R）。','Norepinephrine 優先，超過 15 μg/min 可能升高 PVR，宜加第二種藥；此階段避免大量輸液。'],
- pit:'Alteplase 100 mg 是固定劑量，不需依體重計算；工具算出的 0.6 mg/kg 是加速方案。'},
+ why:['ESC 高風險、AHA/ACC E1。','全身溶栓：ESC I B；AHA/ACC 2a C-LD。Alteplase 100 mg 輸注 2 小時；健保須填附表二-A，50 mg 需 2 瓶。','AHA/ACC E1 中 CDL、機械取栓、外科取栓也都是 2a，依現場能力由 PERT 決定。','兩份指引在 heparin 上不同：ESC 高風險用 UFH 含負荷（I C）；AHA/ACC C1–E1 建議 LMWH 優於 UFH（1 B-R）。','Norepinephrine 優先，超過 15 μg/min 可能升高 PVR，宜加第二種藥；此階段避免大量輸液。'],
+ pit:'Actilyse 仿單：100 mg 給 2 小時（先 10 mg 推注），體重 <65 kg 時總量不超過 1.5 mg/kg。80 kg 用 100 mg；0.6 mg/kg 是另一個加速方案。'},
 {id:'c8',title:'目擊心跳停止，PEA',tag:'E2-R · ECMO',
  story:'68 歲女性，中風後長期臥床、3 天來單腳腫，在急診目擊心跳停止，初始 PEA。超音波 RV 嚴重擴大，臨床高度懷疑 PE。',
  data:['CPR 中，已插管','無法做 CTPA','中風已超過 2 年且為缺血性；無出血史','體重 60 kg；本院有 ECMO 團隊'],
@@ -542,7 +576,9 @@ const MAP={t:'急性肺栓塞',c:[
  {t:'9. 特殊族群',c:[
   {t:'懷孕：LMWH 或 UFH；DOAC、warfarin 有害'},{t:'哺乳：LMWH、UFH 或 warfarin 優於 DOAC'},{t:'血栓性 APS：VKA 優於 DOAC'},{t:'CKD 4–5：apixaban 是否優於 VKA 不確定（2b）'},{t:'Child-Pugh C：不用 DOAC'},{t:'無法抗凝血：可回收 IVC filter'}]},
  {t:'10. 後續',c:[
-  {t:'主要可逆因子：3–6 個月停藥（COR 1）'},{t:'次要可逆因子：共同決策（2a）'},{t:'無可逆因子或持續因子：延長治療（COR 1）'},{t:'延長期可用半劑量 apixaban 或 rivaroxaban（COR 1）'},{t:'至少 1 年內每次回診詢問症狀，篩檢 CTEPD'}]}
+  {t:'主要可逆因子：3–6 個月停藥（COR 1）'},{t:'次要可逆因子：共同決策（2a）'},{t:'無可逆因子或持續因子：延長治療（COR 1）'},{t:'延長期可用半劑量 apixaban 或 rivaroxaban（COR 1）'},{t:'至少 1 年內每次回診詢問症狀，篩檢 CTEPD'}]},
+ {t:'11. 台灣健保（115.11.5）',c:[
+  {t:'四種 DOAC 條文都含肺栓塞，須影像或血管超音波診斷'},{t:'Dabigatran 持續治療 6 個月；其他每 6 個月評估'},{t:'LMWH：tinzaparin 列肺栓塞；enoxaparin 未列'},{t:'Fondaparinux、tenecteplase 目前無給付中品項'},{t:'Alteplase：給付中僅 50 mg，須填附表二-A'}]}
 ]};
 /*TEACH-END*/
 
@@ -565,7 +601,7 @@ Object.keys(S.data).forEach(k=>{S.data[k]=normalizeP(S.data[k]);});
 let demo=null;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 const P_=()=>demo?demo.P:(S.data[S.bed]||(S.data[S.bed]=newP()));
-const TABS=[['tool','決策工具'],['cases','示範病例'],['quiz','考題'],['map','心智圖']];
+const TABS=[['tool','決策工具'],['cases','示範病例'],['quiz','考題'],['map','心智圖'],['nhi','健保與藥品']];
 const tabNow=()=>{const h=location.hash.slice(1);return TABS.some(t=>t[0]===h)?h:'tool';};
 const quiz={};
 
@@ -636,16 +672,17 @@ function renderTool(){
       <div class="fld" style="width:140px"><label for="p-crcl">CrCl <span class="unit">mL/min</span></label><input id="p-crcl" data-p="crcl" inputmode="decimal" value="${esc(P.crcl)}"></div></div>
     <span class="label">抗凝血</span>
     <div class="dose">
-      <div class="drow"><span><b>Enoxaparin</b> 1 mg/kg q12h</span><span class="d">${d.enox}</span><small>${d.lowCr?'<b class="crit">CrCl &lt;30：改 1 mg/kg q24h，監測 anti-Xa 合理（2a）；ESC 建議改 UFH</b>':'CrCl &lt;30 改 q24h。BMI &gt;40 降低劑量可能合理（2b）。'}</small></div>
+      <div class="drow"><span><b>Enoxaparin</b> 1 mg/kg q12h</span><span class="d">${d.enox}</span><small>${d.lowCr?'<b class="crit">CrCl &lt;30：改 1 mg/kg q24h，監測 anti-Xa 合理（2a）；ESC 建議改 UFH</b>':'CrCl &lt;30 改 q24h。BMI &gt;40 降低劑量可能合理（2b）。'}<span class="nhin">健保條文未列肺栓塞，見「健保與藥品」。</span></small></div>
+      <div class="drow"><span><b>Tinzaparin</b> 175 IU/kg qd</span><span class="d">${d.tinz}</span><small>劑量引自國外資料，台灣仿單未讀。<span class="nhin">健保條文列肺栓塞。</span></small></div>
       <div class="drow"><span><b>UFH</b> 負荷 80 U/kg，之後 18 U/kg/h</span><span class="d">${d.ufh}</span><small>依 aPTT 或 anti-Xa 調整。ESC：血行動力學不穩定、CrCl ≤30 或重度肥胖時使用；AHA/ACC：C1–E1 優先 LMWH。</small></div>
-      <div class="drow"><span><b>Fondaparinux</b> 每日一次</span><span class="d">${d.fonda}</span><small>&lt;50 kg：5 mg；50–100 kg：7.5 mg；&gt;100 kg：10 mg。CrCl &lt;30 禁用。</small></div>
-      <div class="drow${doacOff}"><span><b>Apixaban</b></span><span class="d">10 mg bid ×7 天 → 5 mg bid</span><small>可直接開始，不需先給注射抗凝血劑。${d.avoidDoac?'<b class="crit">懷孕避免。</b>':''}</small></div>
+      <div class="drow"><span><b>Fondaparinux</b> 每日一次</span><span class="d">${d.fonda}</span><small>&lt;50 kg：5 mg；50–100 kg：7.5 mg；&gt;100 kg：10 mg。CrCl &lt;30 禁用。<span class="nhin">目前無健保給付中品項。</span></small></div>
+      <div class="drow${doacOff}"><span><b>Apixaban</b></span><span class="d">10 mg bid ×7 天 → 5 mg bid</span><small>可直接開始，不需先給注射抗凝血劑。${d.avoidDoac?'<b class="crit">懷孕避免。</b>':''}${d.lowCr?'<b class="crit">'+PEE.noacRenal(n(P.crcl))+'。</b>':''}</small></div>
       <div class="drow${doacOff}"><span><b>Rivaroxaban</b></span><span class="d">15 mg bid ×21 天 → 20 mg qd</span><small>可直接開始。${d.avoidDoac?'<b class="crit">懷孕避免。</b>':''}</small></div>
-      <div class="drow${doacOff}"><span><b>Dabigatran／Edoxaban</b></span><span class="d">先注射抗凝 ≥5 天</span><small>Dabigatran 150 mg bid；edoxaban 60 mg qd（≤60 kg 或 CrCl 15–50 為 30 mg qd）。${d.avoidDoac?'<b class="crit">懷孕避免。</b>':''}</small></div>
+      <div class="drow${doacOff}"><span><b>Dabigatran／Edoxaban</b></span><span class="d">先注射抗凝 ≥5 天</span><small>Dabigatran 150 mg bid；edoxaban 60 mg qd（≤60 kg 或 CrCl 15–50 為 30 mg qd）。<span class="nhin">健保：dabigatran 持續治療 6 個月。</span>${d.avoidDoac?'<b class="crit">懷孕避免。</b>':''}</small></div>
     </div>
     <span class="label">全身性血栓溶解（ESC 高風險；AHA/ACC E 類合理、D 與 C3 為 2b）</span>
     <div class="dose">
-      <div class="drow"><span><b>Alteplase</b> 標準</span><span class="d">100 mg，2 小時</span><small>固定劑量。溶栓後初始注射抗凝血：LMWH 優於 UFH（AHA/ACC 1 B-NR）。</small></div>
+      <div class="drow"><span><b>Alteplase</b> 標準</span><span class="d">${d.std}</span><small>${d.stdCap?'<b class="crit">&lt;65 kg：總量不超過 1.5 mg/kg（台灣仿單）。</b>':''}先 10 mg 推注 1–2 分鐘，其餘於 2 小時輸注（仿單）。之後 LMWH 優於 UFH（AHA/ACC 1 B-NR）；用 UFH 時，aPTT &lt;2 倍上限開始，維持 50–70 秒（仿單）。<span class="nhin">健保：給付中僅 50 mg，須填附表二-A。</span></small></div>
       <div class="drow"><span><b>Alteplase</b> 加速（例如心跳停止）</span><span class="d">${d.accel}</span><small>0.6 mg/kg，上限 50 mg。ESC 註明非正式核准。</small></div>
       <div class="drow"><span><b>Alteplase</b> 低劑量</span><span class="d">25–50 mg</span><small>AHA/ACC：可考慮以降低出血（2b C-LD），高品質證據不足。</small></div>
     </div>
@@ -696,6 +733,13 @@ function renderMap(){
   $('#map').innerHTML=`<div class="intro row between"><div><h2>心智圖</h2><p class="muted">點分支可展開。COR 依 AHA/ACC 2026，另標明 ESC。</p></div><div class="row"><button type="button" class="btn small" id="mm-open" data-act="mmOpen">全部展開</button><button type="button" class="btn small" id="mm-close" data-act="mmClose">全部收合</button></div></div><div class="mmroot"><div class="mmhead">${esc(MAP.t)}</div>${MAP.c.map(x=>node(x,1)).join('')}</div>`;
 }
 
+function renderNhi(){
+  const lab={ok:'可給付',warn:'有限制',bad:'無給付品項'};
+  $('#nhi').innerHTML=`<div class="intro"><h2>健保與台灣藥品</h2><p class="muted">查詢日 115.11.5；藥品給付規定第二節 115.9.22 版。健保狀態與價格會變動，開立前請以健保署查詢與院內藥局為準。</p></div>
+  <div class="tblwrap"><table class="nhit"><thead><tr><th scope="col">藥品</th><th scope="col">健保品項</th><th scope="col">給付規定（肺栓塞相關）</th><th scope="col">台灣仿單</th></tr></thead><tbody>${PEE.NHI.map(r=>`<tr><th scope="row">${r.d}<span class="nst ${r.st}">${lab[r.st]}</span></th><td>${r.item}</td><td>${r.rule}</td><td>${r.label}</td></tr>`).join('')}</tbody></table></div>
+  <div class="panel"><h3>使用時請注意</h3><ul class="plain"><li>「未列肺栓塞」只表示條文沒有寫，實際是否核付依審查結果；常合併 DVT 的情況也請與院內藥事討論。</li><li>指引的「LMWH 優於 UFH」不等於台灣每種 LMWH 都有 PE 給付條文。</li><li>Dabigatran 條文寫持續治療 6 個月；延長期用藥的給付是否超過此期間，條文未進一步說明。</li><li>條文未明列半劑量延長治療；半劑量 apixaban 或 rivaroxaban 的給付請另行確認。</li><li>這次沒有查到 TFDA 許可證資料。表中的現況來自健保品項，不代表藥品有無許可證或實際供貨。</li></ul></div>`;
+}
+
 /* ---------- 版面 ---------- */
 function render(){
   const a=document.activeElement;let fk=null,sel=null;
@@ -708,6 +752,7 @@ function render(){
   else if(t==='cases'){if(!$('#cases').firstChild)renderCases();}
   else if(t==='quiz')renderQuiz();
   else if(t==='map'){if(!$('#map').firstChild)renderMap();}
+  else if(t==='nhi'){if(!$('#nhi').firstChild)renderNhi();}
   const el=fk&&$(fk);if(el){el.focus({preventScroll:true});if(sel&&sel[0]!=null)try{el.setSelectionRange(sel[0],sel[1]);}catch(e){}}
 }
 function persist(){if(!demo)save();}

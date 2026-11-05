@@ -13,7 +13,8 @@
 | 決策工具 | `#tool` | 輸入後即時分類；空白時顯示「尚未評估」，資料不足時標「暫定」 |
 | 示範病例 | `#cases` | 8 例虛構病例，分類由引擎即時計算；帶入工具時不寫入床號 |
 | 考題 | `#quiz` | 20 題，固定順序，答案 A–D 各 5 題，不儲存 |
-| 心智圖 | `#map` | 10 個分支，可展開與收合 |
+| 心智圖 | `#map` | 11 個分支，可展開與收合 |
+| 健保與藥品 | `#nhi` | 健保品項、給付條文與台灣仿單對照（查詢日 115.11.5） |
 
 ## 分類邏輯
 
@@ -70,7 +71,8 @@
 1. Konstantinides SV, et al. 2019 ESC Guidelines for the diagnosis and management of acute pulmonary embolism. *Eur Heart J* 2020;41:543–603；[Eur Respir J 2019;54:1901647](https://doi.org/10.1183/13993003.01647-2019).
 2. Creager MA, et al. 2026 AHA/ACC/ACCP/ACEP/CHEST/SCAI/SHM/SIR/SVM/SVN Guideline for the Evaluation and Management of Acute Pulmonary Embolism in Adults. *Circulation* 2026;153(12). [doi:10.1161/CIR.0000000000001415](https://doi.org/10.1161/CIR.0000000000001415)
 3. Jiménez D, et al. *Arch Intern Med* 2010;170:1383–1389；Aujesky D, et al. *Am J Respir Crit Care Med* 2005;172:1041–1046.
-4. Rosenfield K, et al. HI-PEITHO. *N Engl J Med* 2026;394:1979–1990. [doi:10.1056/NEJMoa2516567](https://doi.org/10.1056/NEJMoa2516567)
+4. 中央健康保險署藥品給付規定第二節（115.9.22）、附表二-A、健保用藥品項查詢（115.11.5）；台灣仿單 Actilyse（2025-10-27）、Clexane（2025-10-29）。
+5. Rosenfield K, et al. HI-PEITHO. *N Engl J Med* 2026;394:1979–1990. [doi:10.1056/NEJMoa2516567](https://doi.org/10.1056/NEJMoa2516567)
 
 ## 授權
 

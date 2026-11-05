@@ -108,6 +108,21 @@ eq(D({wt:'60'}).accel,'36 mg，15 分鐘','accel');eq(D({wt:'100'}).accel,'50 mg
 eq(D({}).ufh,'—','no weight');eq(D({wt:'-3'}).ufh,'—','neg weight');
 eq(D({pop:{preg:true}}).avoidDoac,true,'preg avoid DOAC');
 
+// Actilyse 仿單與 ESC NOAC 腎功能註腳
+eq(D({wt:'80'}).std,'100 mg，2 小時','std 80');eq(D({wt:'65'}).std,'100 mg，2 小時','std 65');eq(D({wt:'60'}).std,'90 mg，2 小時','std 60 cap');eq(D({wt:'60'}).stdCap,true,'cap flag');eq(D({}).std,'100 mg，2 小時','std blank');
+eq(D({wt:'70'}).tinz,'12250 IU qd','tinz');
+ok(/不建議 dabigatran/.test(PEE.noacRenal(20)),'CrCl 20');ok(/<15/.test(PEE.noacRenal(10)),'CrCl 10');eq(PEE.noacRenal(30),'','CrCl 30');eq(PEE.noacRenal(NaN),'','CrCl blank');
+ok(/III C/.test(PEE.popNotes({pop:{preg:true}}).join()),'preg III C');ok(/III C/.test(PEE.popNotes({pop:{aps:true}}).join()),'APS III C');
+// ESC 建議強度（T17、T18、T21）
+const es=x=>PEE.escPlan(C(x)).join('|');
+for(const t of ['I C','I B','IIa C','IIb C'])ok(es({hemo:'persist'}).includes(t),'ESC high '+t);
+for(const t of ['I A','I B','IIa C','III B'])ok(es({age:'50',pe:{hr:true},rv:{ratio:true},trop:'up'}).includes(t),'ESC imh '+t);
+ok(es({age:'40',rvChecked:true}).includes('IIa A'),'ESC low IIa A');
+// 健保表
+eq(PEE.NHI.length,11,'NHI rows');
+const N=k=>PEE.NHI.find(r=>r.d===k);
+ok(/未列肺栓塞/.test(N('Enoxaparin').rule),'enox rule');ok(/治療肺栓塞/.test(N('Tinzaparin').rule),'tinz rule');eq(N('Fondaparinux').st,'bad','fonda');eq(N('Tenecteplase').st,'bad','tnk');
+for(const k of ['Apixaban','Rivaroxaban','Edoxaban','Dabigatran'])ok(/含肺栓塞/.test(N(k).rule),k);
 // 病例
 eq(CASES.length,8,'8 cases');
 const seen=new Set();
