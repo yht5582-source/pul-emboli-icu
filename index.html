@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>肺栓塞風險分層</title>
+<meta name="description" content="急性肺栓塞風險分層：ESC 2019 與 AHA/ACC 2026 臨床分類、處置與劑量，附 8 例示範病例、20 題考題與心智圖。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
 :root{
   --bg:#EDF1F0; --surface:#FFFFFF; --surface-2:#F5F8F7; --ink:#14212A; --muted:#55666D; --line:#D2DBDA;
@@ -63,7 +64,7 @@ main{padding-block:18px 48px;display:grid;gap:18px}
 .bedbtn[aria-current="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .bedbtn[aria-current="true"] small{color:var(--surface)}
 .layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
-@media (max-width:1000px){.layout{grid-template-columns:1fr}}
+@media (max-width:1000px){.layout{grid-template-columns:minmax(0,1fr)}}
 .col{display:grid;gap:16px;min-width:0}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:12px;min-width:0}
 .sec{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
@@ -135,6 +136,71 @@ footer{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:10px;f
 footer ol{margin:0;padding-left:20px;display:grid;gap:3px}
 .disclaimer{background:var(--warn-soft);color:var(--ink);border-radius:10px;padding:10px 14px;font-size:13.5px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* 分頁 */
+.tabs{display:flex;gap:2px;overflow-x:auto;padding-bottom:0}
+.tabs a{color:var(--strip-muted);text-decoration:none;padding:7px 14px;font-size:14.5px;font-weight:500;white-space:nowrap;border-bottom:3px solid transparent}
+.tabs a:hover{color:var(--strip-ink)}
+.tabs a[aria-selected="true"]{color:var(--strip-ink);font-weight:700;border-bottom-color:var(--strip-accent)}
+.tabs a:focus-visible{outline-color:var(--strip-accent);outline-offset:-2px}
+.view{display:grid;gap:18px;grid-template-columns:minmax(0,1fr)}
+main{grid-template-columns:minmax(0,1fr)}
+footer,footer ol,.cat ul,.plain,.cans ol{grid-template-columns:minmax(0,1fr)}footer{overflow-wrap:anywhere}
+.demobar{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:8px 12px;font-size:14px}
+.pending{font-size:13px;color:var(--warn);font-weight:500}
+.warnbox.soft{background:var(--warn-soft)}
+.empty{justify-items:start}.empty h2{font-size:18px}
+.plain{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14.5px}
+.crit{color:var(--crit)}
+.drow.off{opacity:.62}
+details>summary{cursor:pointer;font-weight:700}
+.advwrap{display:grid;gap:5px;margin-top:2px}
+.adv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.advc{border:1px solid var(--line);border-radius:7px;padding:5px 6px;display:grid;gap:1px;font-size:12.5px;background:var(--surface-2);min-width:0}
+.advc small{font-size:11px;color:var(--muted)}
+.advc b{font-family:var(--f-num);font-size:12px;font-weight:700}
+.advc.ok{border-color:var(--ok)}.advc.ok b{color:var(--ok)}
+.advc.mid{border-color:var(--warn)}.advc.mid b{color:var(--warn)}
+.advc.bad{border-color:var(--crit)}.advc.bad b{color:var(--crit)}
+.advc.out{opacity:.72;border-style:dashed}
+@media (max-width:480px){.adv{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* 教學 */
+.intro h2{font-size:20px}
+.between{justify-content:space-between;align-items:flex-end}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:14px;align-items:start}
+.case{font-size:14.5px}
+.ctop{display:flex;gap:10px;align-items:flex-start}
+.ctop h3{font-size:16.5px}
+.cno,.qn{font-family:var(--f-num);font-size:13px;font-weight:700;min-width:24px;height:24px;border-radius:6px;display:inline-grid;place-items:center;background:var(--ink);color:var(--surface);flex:none}
+.ctag{font-family:var(--f-label);font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.03em}
+.cq{background:var(--surface-2);border-radius:8px;padding:8px 10px}
+.cans{display:grid;gap:8px;margin-top:8px}
+.cans ol{margin:0;padding-left:20px;display:grid;gap:5px}
+.res-pair{display:flex;gap:8px;flex-wrap:wrap}
+.res-pair span{border:1px solid var(--accent);border-radius:8px;padding:3px 10px;display:grid;line-height:1.3}
+.res-pair small{font-size:11px;color:var(--muted)}
+.pit{background:var(--warn-soft);border-radius:8px;padding:7px 10px;font-size:14px}
+.case>.btn{justify-self:start}
+.qscore{display:grid;justify-items:end;gap:3px}
+.qscore b{font-size:22px}.qscore small{color:var(--muted);font-size:12px}
+.qsec{font-size:16px;font-family:var(--f-label);letter-spacing:.04em;color:var(--accent);margin-top:6px}
+.qq{gap:9px;max-width:860px}
+.qt{display:flex;gap:9px;font-weight:500}
+.qo{display:grid;gap:5px}
+.qopt{display:flex;gap:9px;align-items:flex-start;text-align:left;width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:8px 10px;cursor:pointer;font-size:14.5px}
+.qopt:not(:disabled):hover{border-color:var(--accent)}
+.qopt b{font-family:var(--f-num)}
+.qopt:disabled{cursor:default;color:inherit}
+.qopt.right{border-color:var(--ok);background:var(--ok-soft)}
+.qopt.wrong{border-color:var(--crit);background:var(--crit-soft)}
+.qopt.dim{opacity:.62}
+.qwhy{font-size:14px;border-left:3px solid var(--accent);padding-left:10px}
+.mmroot{display:grid;gap:8px;max-width:860px}
+.mmhead{font-size:18px;font-weight:700;background:var(--ink);color:var(--surface);border-radius:10px;padding:8px 14px;justify-self:start}
+.mm.d1{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:9px 13px}
+.mmc{display:grid;gap:5px;margin-top:8px;padding-left:12px;border-left:1px solid var(--line)}
+.mml{font-size:14.5px;padding:2px 0 2px 10px;position:relative}
+.mml::before{content:"";position:absolute;left:-12px;top:13px;width:16px;border-top:1px solid var(--line)}
+@media print{.strip{position:static}.tabs,.beds-scroll,.btn,.demobar .btn{display:none!important}body{background:#fff}.panel,.cat{break-inside:avoid}details>*{display:block}}
 </style>
 </head>
 <body>
@@ -144,23 +210,33 @@ footer ol{margin:0;padding-left:20px;display:grid;gap:3px}
     <div class="brand"><h1>肺栓塞風險分層</h1><p>ESC 2019 ＋ AHA/ACC 2026 臨床分類</p></div>
     <div class="res" id="res"></div>
   </div>
+  <div class="wrap"><nav class="tabs" id="tabs" role="tablist" aria-label="分頁"></nav></div>
 </header>
 
 <div class="wrap">
 <main>
-  <div class="beds-scroll"><div class="beds" id="beds"></div></div>
-  <div class="layout">
-    <div class="col" id="left"></div>
-    <div class="col" id="right"></div>
+  <noscript><div class="disclaimer">此工具需要 JavaScript 才能計算。</div></noscript>
+  <div class="view" id="view-tool">
+    <div class="beds-scroll"><div class="beds" id="beds"></div></div>
+    <div class="demobar" id="demobar" hidden></div>
+    <div class="layout">
+      <div class="col" id="left"></div>
+      <div class="col" id="right"></div>
+    </div>
   </div>
+  <div class="view" id="view-cases" hidden><div class="view" id="cases"></div></div>
+  <div class="view" id="view-quiz" hidden><div class="view" id="quiz"></div></div>
+  <div class="view" id="view-map" hidden><div class="view" id="map"></div></div>
   <footer>
     <div class="disclaimer"><b>僅供臨床決策輔助與教學，不取代臨床判斷與 PE 團隊（PERT）討論。</b>血栓溶解與抗凝血藥物請依院內規範與出血風險評估。資料只存在這台裝置的瀏覽器，不會上傳；請只記錄床號。</div>
     <div>
       <span class="label">依據</span>
       <ol>
-        <li>Konstantinides SV, Meyer G, Becattini C, et al. 2019 ESC Guidelines for the diagnosis and management of acute pulmonary embolism. <i>Eur Heart J</i> 2020;41:543–603。</li>
-        <li>2026 AHA/ACC/ACCP/ACEP/CHEST/SCAI/SHM/SIR/SVM/SVN Guideline for the Evaluation and Management of Acute Pulmonary Embolism in Adults. <i>Circulation</i> 2026. <a href="https://doi.org/10.1161/CIR.0000000000001415">doi:10.1161/CIR.0000000000001415</a>；<i>J Am Coll Cardiol</i> 2026. <a href="https://doi.org/10.1016/j.jacc.2025.11.005">doi:10.1016/j.jacc.2025.11.005</a></li>
+        <li>Konstantinides SV, Meyer G, Becattini C, et al. 2019 ESC Guidelines for the diagnosis and management of acute pulmonary embolism. <i>Eur Heart J</i> 2020;41:543–603；<a href="https://doi.org/10.1183/13993003.01647-2019">Eur Respir J 2019;54:1901647</a>。</li>
+        <li>Creager MA, Barnes GD, Giri J, et al. 2026 AHA/ACC/ACCP/ACEP/CHEST/SCAI/SHM/SIR/SVM/SVN Guideline for the Evaluation and Management of Acute Pulmonary Embolism in Adults. <i>Circulation</i> 2026;153(12). <a href="https://doi.org/10.1161/CIR.0000000000001415">doi:10.1161/CIR.0000000000001415</a>；<i>J Am Coll Cardiol</i> 2026. <a href="https://doi.org/10.1016/j.jacc.2025.11.005">doi:10.1016/j.jacc.2025.11.005</a></li>
         <li>Jiménez D, et al. Simplification of the PESI (sPESI). <i>Arch Intern Med</i> 2010;170:1383–1389；Aujesky D, et al. PESI. <i>Am J Respir Crit Care Med</i> 2005;172:1041–1046。</li>
+        <li>Rosenfield K, Klok FA, Piazza G, et al. Ultrasound-Facilitated, Catheter-Directed Fibrinolysis for Acute Pulmonary Embolism（HI-PEITHO）. <i>N Engl J Med</i> 2026;394:1979–1990. <a href="https://doi.org/10.1056/NEJMoa2516567">doi:10.1056/NEJMoa2516567</a></li>
+        <li>PEITHO 數據引自 AHA/ACC 2026 內文。</li>
       </ol>
     </div>
   </footer>
@@ -168,198 +244,481 @@ footer ol{margin:0;padding-left:20px;display:grid;gap:3px}
 </div>
 
 <script>
-(function(){
-const KEY='pe-v1';
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/*ENGINE-START*/
+const PEE=(function(){
 const n=v=>{if(v===''||v==null)return NaN;const x=parseFloat(v);return isFinite(x)?x:NaN;};
 const r1=x=>Math.round(x*10)/10;
+const newP=()=>({hemo:'stable',hypo:{},resp:{},pe:{},ageFlag:false,age:'',sex:'M',rv:{},rvChecked:false,trop:'',bnp:'',asym:false,loc:'',cit:false,ci:{},pop:{},wt:'',crcl:'',scoreMode:'spesi'});
+/* 舊版資料（sp 群組、舊 R 定義）轉成新格式；缺欄位補預設 */
+function normalizeP(o){
+  const P=Object.assign(newP(),o&&typeof o==='object'?o:{});
+  ['hypo','resp','pe','rv','ci','pop'].forEach(k=>{if(!P[k]||typeof P[k]!=='object')P[k]={};});
+  if(P.sp&&typeof P.sp==='object'){
+    ['ca','hr','sbp','spo2'].forEach(k=>{if(P.sp[k])P.pe[k]=true;});
+    if(P.sp.cp&&!P.pe.lung)P.pe.hf=true;
+    if(P.sp.age)P.ageFlag=true;
+    delete P.sp;
+  }
+  if(P.resp.o2){P.resp.d=true;delete P.resp.o2;}
+  if(!['spesi','pesi'].includes(P.scoreMode))P.scoreMode='spesi';
+  if(!HEMO.some(h=>h[0]===P.hemo))P.hemo='stable';
+  return P;
+}
 
-const newP=()=>({hemo:'stable',hypo:{},resp:{},sp:{},pe:{},age:'',sex:'M',rv:{},trop:'',bnp:'',asym:false,loc:'',ci:{},wt:'',crcl:'',scoreMode:'spesi'});
+/* ---------- 評估項目 ---------- */
+const HEMO=[
+ ['stable','血壓穩定','SBP ≥90 mmHg，沒有低血壓'],
+ ['transient','短暫低血壓','SBP <90 或下降 >40 mmHg，持續 <15 分鐘或輸液後恢復'],
+ ['persist','持續或反覆低血壓合併休克','SBP <90 或下降 ≥40 mmHg 超過 15 分鐘，或需升壓劑維持 SBP ≥90'],
+ ['refractory','難治性休克','對升壓劑反應差（SCAI 休克分期 D–E）'],
+ ['arrest','心跳停止','需要心肺復甦（AHA/ACC 內文：復甦 30 分鐘仍無 ROSC 屬 E2）']];
+const HYPO=[['lac','乳酸 >2 mmol/L'],['aki','急性腎損傷或尿量 <0.5 mL/kg/h'],['ams','意識改變'],['cold','皮膚濕冷'],['ci','心輸出指數 ≤2.2 L/min/m² 或 MAP <60 mmHg']];
+const RESP=[['c','SpO₂ <90%、RR ≥30 或需要任何氧氣','C 類的 R'],['d','>6 L/min 鼻導管或非再吸入面罩','D 類的 R'],['vent','需要 NIV 或侵襲性通氣','E 類的 R']];
+const SCORE=[['ca','癌症',30],['hf','慢性心衰竭',10],['lung','慢性肺病',10],['hr','心率 ≥110 次/分',20],['sbp','收縮壓 <100 mmHg',30],['rr','呼吸 ≥30 次/分',20],['temp','體溫 <36 °C',20],['ams','意識改變',60],['spo2','SpO₂ <90%',20]];
+const SPESI_KEYS=['ca','hf','lung','hr','sbp','spo2'];
+const RV=[['ratio','RV/LV 直徑比 ≥1.0（ESC；AHA/ACC 超音波 >0.9）'],['tapse','TAPSE <16 mm（ESC；AHA/ACC <17 mm）'],['mcc','McConnell sign 或 60/60 sign'],['septum','心室中隔變平（D 字形）'],['rvbasal','RV 基底舒張末徑 ≥41 mm（AHA/ACC）']];
+const CI_ABS=[['hstroke','出血性中風或原因不明的中風病史'],['istroke','6 個月內缺血性中風'],['cns','中樞神經腫瘤'],['trauma','3 週內重大外傷、手術或頭部外傷'],['diath','出血體質'],['bleed','活動性出血']];
+const CI_REL=[['tia','6 個月內 TIA'],['oac','正在使用口服抗凝血劑'],['preg','懷孕或產後 1 週內'],['punct','無法壓迫的穿刺部位'],['cpr','創傷性心肺復甦'],['htn','難控制的高血壓（SBP >180）'],['liver','嚴重肝病'],['ie','感染性心內膜炎'],['ulcer','活動性消化性潰瘍']];
+const POP=[['preg','懷孕'],['bf','哺乳'],['aps','確診血栓性抗磷脂症候群'],['childB','Child-Pugh B'],['childC','Child-Pugh C'],['brain','原發或轉移性腦腫瘤'],['cancer','活動性癌症'],['noac','無法耐受抗凝血']];
+
+/* ---------- 計算 ---------- */
+const ESC_NAME={high:'高風險',imh:'中高風險',iml:'中低風險',low:'低風險'};
+const has=(o,arr)=>arr.some(([k])=>o[k]);
+function calc(Pin){
+  const P=normalizeP(Pin);
+  const rawAge=n(P.age), ageBad=isFinite(rawAge)&&(rawAge<18||rawAge>120), age=ageBad?NaN:rawAge;
+  const ageOver=isFinite(age)?age>80:!!P.ageFlag;
+  const sp=(ageOver?1:0)+(P.pe.ca?1:0)+((P.pe.hf||P.pe.lung)?1:0)+(P.pe.hr?1:0)+(P.pe.sbp?1:0)+(P.pe.spo2?1:0);
+  const items=SCORE.reduce((a,[k,,p])=>a+(P.pe[k]?p:0),0)+(P.sex==='M'?10:0);
+  const pesi=isFinite(age)?age+items:null;
+  const pesiCls=pesi==null?'':pesi<=65?'I':pesi<=85?'II':pesi<=105?'III':pesi<=125?'IV':'V';
+  const isPesi=P.scoreMode==='pesi';
+  const sevHigh=isPesi?(pesi==null?items>85:pesi>85):sp>=1;
+  const sevKnown=isPesi?(pesi!=null||sevHigh):(isFinite(age)||P.ageFlag||sevHigh);
+  const rvDys=has(P.rv,RV), rvKnown=rvDys||!!P.rvChecked;
+  const tropUp=P.trop==='up', tropKnown=P.trop!=='', bnpUp=P.bnp==='up', bnpKnown=P.bnp!=='';
+  const bioUp=tropUp||bnpUp, bioKnown=tropKnown||bnpKnown;
+  const hypoperf=has(P.hypo,HYPO);
+  const respAny=!!(P.resp.c||P.resp.d||P.resp.vent||P.pe.spo2||P.pe.rr);
+  const absCI=has(P.ci,CI_ABS), relCI=has(P.ci,CI_REL)||!!P.pop.preg;
+  const assessed=P.hemo!=='stable'||isFinite(rawAge)||P.ageFlag||P.asym||P.rvChecked||tropKnown||bnpKnown||!!P.loc||!!P.cit||[P.hypo,P.resp,P.pe,P.rv].some(o=>Object.values(o).some(Boolean));
+
+  // ESC 2019：亞分層用 RV 功能不全＋troponin；低分數但 RV 或 troponin 異常歸中低風險（ESC 內文）
+  let esc,escL,escWhy;
+  if(['persist','refractory','arrest'].includes(P.hemo)||(P.hemo==='transient'&&hypoperf)){
+    esc='high';escL=4;escWhy=P.hemo==='arrest'?'心跳停止':P.hemo==='transient'?'低血壓合併器官低灌流（阻塞性休克）':'血行動力學不穩定';
+  }else if(sevHigh||rvDys||tropUp){
+    if(rvDys&&tropUp&&sevHigh){esc='imh';escL=3;escWhy='PESI III–V 或 sPESI ≥1，且 RV 功能不全與 troponin 上升兩者皆有';}
+    else{esc='iml';escL=2;escWhy=sevHigh?'PESI III–V 或 sPESI ≥1，RV 功能不全與 troponin 上升未同時存在':'臨床分數低，但有 RV 功能不全或 troponin 上升（ESC：歸為中低風險）';}
+  }else{esc='low';escL=0;escWhy='PESI I–II 或 sPESI 0，且 RV 無功能不全、troponin 未上升';}
+  const escMissing=[];
+  if(esc!=='high'){
+    if(!sevKnown)escMissing.push(isPesi?'年齡（PESI）':'年齡或年齡 >80 勾選');
+    if(!rvKnown)escMissing.push('RV 影像');
+    if(rvDys&&!tropKnown&&sevHigh)escMissing.push('troponin');
+  }
+
+  // AHA/ACC 2026 Figure 2：C 的亞類看 RV 與「≥1 個生物標記」（troponin 或 BNP）
+  let aha,ahaL,ahaWhy;
+  if(P.hemo==='arrest'||P.hemo==='refractory'){aha='E2';ahaL=4;ahaWhy=P.hemo==='arrest'?'心跳停止':'難治性心因性休克';}
+  else if(P.hemo==='persist'){aha='E1';ahaL=4;ahaWhy='反覆或持續低血壓合併心因性休克';}
+  else if(hypoperf){aha='D2';ahaL=3;ahaWhy=P.hemo==='transient'?'短暫低血壓合併低灌流':'血壓正常但有低灌流（normotensive shock）';}
+  else if(P.hemo==='transient'){aha='D1';ahaL=3;ahaWhy='短暫低血壓或輸液有反應，沒有低灌流';}
+  else if(P.asym){aha='A';ahaL=0;ahaWhy='無症狀、影像偶然發現';}
+  else if(!sevHigh&&!rvDys&&!bioUp){aha=P.loc==='sub'?'B1':P.loc?'B2':'B';ahaL=0;ahaWhy='有症狀、臨床嚴重度分數低（sPESI 0／PESI ≤85）';}
+  else{
+    const cnt=(rvDys?1:0)+(bioUp?1:0);
+    aha=cnt===2?'C3':cnt===1?'C2':'C1';ahaL=cnt===2?2:1;
+    ahaWhy=cnt===2?'RV 異常且 ≥1 個生物標記異常':cnt===1?'RV 異常或 ≥1 個生物標記異常':'嚴重度分數升高，RV 與生物標記正常';
+    if(!sevHigh)ahaWhy+='（分數低但 RV 或生物標記異常：工具依「最嚴重指標」歸入 C）';
+  }
+  const fam=aha[0];
+  const ahaR=fam==='C'?(respAny?'-R':''):fam==='D'?((P.resp.d||P.resp.vent)?'-R':''):fam==='E'?(P.resp.vent?'-R':''):'';
+  const ahaMissing=[];
+  if(fam==='A'){}
+  else if(fam==='B'||fam==='C'){
+    if(!sevKnown)ahaMissing.push(isPesi?'年齡（PESI）':'年齡或年齡 >80 勾選');
+    if(fam==='C'&&!rvKnown)ahaMissing.push('RV 影像');
+    if(fam==='C'&&!bioKnown)ahaMissing.push('troponin 或 BNP');
+  }
+  const flags=[];
+  if(ageBad)flags.push('年齡超出 18–120 歲，未納入計算（兩份指引都針對成人）。');
+  if(P.asym&&fam==='A'&&(rvDys||bioUp||respAny))flags.push('勾了「無症狀」但有 RV、生物標記或呼吸異常：請確認病人真的沒有症狀，否則應改列 B 類以上。');
+  if(P.hemo==='stable'&&hypoperf&&esc!=='high')flags.push('ESC 2019 高風險定義要有低血壓，常血壓休克不會被升級；不要因 ESC 分類較低而放鬆監測。');
+  if(P.hemo==='transient'&&!hypoperf&&esc!=='high')flags.push('ESC 2019 沒有獨立的短暫低血壓分類，此處依分數與 RV 分層；AHA/ACC 列 D1。');
+  if(bnpUp&&!tropUp&&!tropKnown&&esc!=='high')flags.push('BNP 上升不等於 troponin 上升：ESC 中高風險需要 troponin（ESC 內文「particularly troponin」），請補測。');
+  return {age,ageBad,sp,pesi,items,pesiCls,sevHigh,sevKnown,rvDys,rvKnown,tropUp,tropKnown,bnpUp,bnpKnown,bioUp,hypoperf,respAny,absCI,relCI,assessed,esc,escL,escWhy,escMissing,aha,ahaL,ahaWhy,ahaR,ahaMissing,flags,fam,ahaFull:aha+ahaR};
+}
+
+/* ---------- 建議 ---------- */
+const cor=(t,c)=>`<span class="cor ${c==='1'?'c1':c==='3'?'c3':''}">${t}</span>`;
+const C1=t=>cor(t,'1'), C3=t=>cor(t,'3'), Cx=t=>cor(t);
+function escPlan(c){
+  if(c.esc==='high')return [
+    `立即給 UFH（含負荷劑量）${C1('I C')}`,
+    `全身性血栓溶解${C1('I B')}${c.absCI?'　<b>有絕對禁忌</b>：改外科取栓或導管治療':c.relCI?'　有相對禁忌：評估出血風險':''}`,
+    `溶栓禁忌或失敗：外科取栓${C1('I C')}；經皮導管治療可作為替代${Cx('IIa C')}`,
+    `低血壓：norepinephrine 和／或 dobutamine${Cx('IIa C')}；避免大量輸液`,
+    `ECMO 可與外科取栓或導管治療合併使用${Cx('IIb C')}`];
+  if(c.esc==='imh')return [
+    `抗凝血：LMWH 或 fondaparinux 優於 UFH${C1('I A')}`,
+    `住院監測，最初數小時至數天密切觀察；維持 LMWH 2–3 天確認穩定再轉口服`,
+    `出現血行動力學惡化：救援性血栓溶解${C1('I B')}；外科取栓或導管治療為替代${Cx('IIa C')}`,
+    `<b>不建議常規初始全身性血栓溶解</b>${C3('III B')}`];
+  if(c.esc==='iml')return [
+    `抗凝血：LMWH 或 fondaparinux 優於 UFH${C1('I A')}；穩定後可改 NOAC`,
+    `住院治療`,`不建議常規全身性血栓溶解${C3('III B')}`];
+  return [
+    `可考慮提早出院並在家治療（需有適當門診照護）${Cx('IIa A')}`,
+    `NOAC 優於 VKA（無禁忌時）${C1('I A')}`];
+}
+/* Table 7：全身溶栓、CDL、機械取栓、外科取栓 */
+const ADV={A:['3: Harm A','3: NB C-EO','3: NB C-EO','3: NB C-EO'],C2:['3: Harm B-R','2b C-LD','2b C-LD','3: NB C-EO'],C3:['2b C-LD','2b C-LD','2b C-LD','3: NB C-EO'],D:['2b C-LD','2b B-NR','2b B-NR','2b C-LD'],E1:['2a C-LD','2a C-LD','2a B-NR','2a B-NR'],E2:['2a C-LD','N/A','N/A','3: NB B-NR']};
+ADV.B=ADV.B1=ADV.B2=ADV.C1=ADV.A;ADV.D1=ADV.D2=ADV.D;
+function ahaPlan(c,Pin){
+  const P=normalizeP(Pin), a=c.aha;
+  const doac=`DOAC 優於 VKA（無禁忌時）${C1('1 B-R')}`;
+  const sed=`避免深度鎮靜與機械通氣，除非臨床必要${C3('3: Harm C-LD')}；中重度低血氧可用 HFNC${Cx('2a C-LD')}`;
+  const work=`測至少 1 個心臟生物標記與乳酸，並以 CT 或超音波評估 RV${C1('1')}`;
+  const pert=`多專科 PERT 評估${C1('1 B-NR')}，住院`;
+  const cit=P.cit&&['C3','D1','D2','E1','E2'].includes(a)?[`<b>右心游離血栓</b>：進階治療優於單純抗凝血是合理的${Cx('2a C-LD')}`]:[];
+  if(a==='A')return [`開始 DOAC（Figure 3）${C1('1')}`,`可由急診出院，不需住院；用 Hestia、PESI 或 sPESI 評估短期風險${C1('1 B-R')}`,'不需進階治療（見下表）'];
+  if(a[0]==='B')return [`開始 DOAC（Figure 3）${C1('1')}`,`用決策工具評估能否門診治療${Cx('2a B-R')}；選定病人可提早出院${Cx('2a B-R')}，須能立即取得抗凝血劑且有可靠回診`,
+    a==='B1'?'次節段栓塞：檢傷與是否抗凝血可依位置及有無 DVT 而不同':a==='B'?'請填栓塞位置，以區分 B1（次節段）與 B2':'',
+    '通常不需 PERT；多重共病者可能受益（例如合併顱內出血）'].filter(Boolean);
+  if(a==='C1')return [pert,`初始抗凝血：LMWH 優於 UFH${C1('1 B-R')}；之後 ${doac}`,work,'不需進階治療（見下表）',sed];
+  if(a==='C2')return [pert,`初始抗凝血：LMWH 優於 UFH${C1('1 B-R')}；之後 ${doac}`,work,'全身性溶栓有害；CDL 與機械取栓效益不明（見下表）',sed];
+  if(a==='C3')return [pert,`初始抗凝血：LMWH 優於 UFH${C1('1 B-R')}`,work,
+    '最初 24–72 小時密切監測惡化',`MAP <80 mmHg 可協助找出可能需要升級治療者${Cx('2a B-NR')}`,...cit,
+    '進階治療效益不確定（見下表）；CDL 與機械取栓孰優未定'+Cx('2b B-R'),
+    'HI-PEITHO（NEJM 2026，晚於指引文獻檢索）：RV/LV ≥1.0、troponin 上升且 ≥2 項（SBP ≤110、HR ≥100、RR >20）者，超音波輔助 CDL 降低 7 天複合事件（4.0% vs 10.3%）；廠商贊助',sed];
+  if(a==='D1'||a==='D2')return [pert,`初始抗凝血：LMWH 優於 UFH，可能接受血管內處置亦然${C1('1 B-R')}${Cx('2a C-LD')}`,
+    ...(a==='D2'?[`升壓劑和／或強心劑${C1('1 C-LD')}`,`評估常血壓休克（乳酸、尿量、肌酸酐、CI）${Cx('2a B-NR')}`]:[]),
+    `懷疑前負荷不足才考慮輸液（一般 500–1000 mL）${Cx('2b C-LD')}`,...cit,
+    `進階治療可考慮（見下表）${c.absCI?'　<b>有溶栓絕對禁忌</b>：考慮機械取栓或外科取栓':''}`,sed,'密切監測乳酸、尿量與血壓，準備升級'];
+  if(a==='E1')return [pert+'，加護病房級照護',`初始抗凝血：LMWH 優於 UFH${C1('1 B-R')}`,`升壓劑和／或強心劑${C1('1 C-LD')}；norepinephrine 通常優先，>15 μg/min 可能升高 PVR，宜加第二種藥`,...cit,
+    `全身溶栓、CDL、機械取栓或外科取栓皆合理（見下表）${c.absCI?'　<b>有溶栓絕對禁忌</b>：選機械取栓或外科取栓':''}`,sed];
+  return [pert+'，加護病房級照護',`抗凝血：LMWH 或 UFH（Figure 3）${C1('1')}；VA-ECMO 期間無出血時持續${C1('1 B-NR')}`,`升壓劑和／或強心劑${C1('1 C-LD')}`,
+    `資源可及時 VA-ECMO 合理${Cx('2a B-NR')}；上 ECMO 後再加進階治療的效益未確立${Cx('2b C-LD')}`,...cit,
+    `全身性溶栓合理（出血風險可接受時）${Cx('2a C-LD')}${c.absCI?'　<b>有溶栓絕對禁忌</b>：以 VA-ECMO 為主':''}`,`外科取栓不建議${C3('3: NB B-NR')}`,sed];
+}
+/* 抗凝血的特殊族群提示 */
+function popNotes(Pin){
+  const P=normalizeP(Pin),out=[],cr=n(P.crcl);
+  if(P.pop.preg)out.push(`懷孕：LMWH 或 UFH${C1('1 C-LD')}；DOAC 與 warfarin 可能有害${C3('3: Harm C-LD')}`);
+  if(P.pop.bf)out.push(`哺乳：LMWH、UFH 或 warfarin 優於 DOAC${C1('1 C-LD')}`);
+  if(P.pop.aps)out.push(`確診血栓性 APS：VKA 優於 DOAC${C1('1 A')}（僅單一抗體陽性時 DOAC 可為替代${Cx('2b B-R')}）`);
+  if(P.pop.childB)out.push(`Child-Pugh B：DOAC 取代 VKA 可能合理${Cx('2b C-LD')}`);
+  if(P.pop.childC)out.push(`Child-Pugh C：不建議 DOAC 取代 VKA${C3('3: Harm C-LD')}`);
+  if(P.pop.brain)out.push(`腦腫瘤：DOAC 可考慮優於 LMWH，以降低顱內出血${Cx('2b C-LD')}`);
+  if(P.pop.cancer)out.push(`活動性癌症：延長期用 DOAC 或 LMWH，優於 VKA${C1('1 A')}`);
+  if(P.pop.noac)out.push(`無法耐受抗凝血：IVC filter 有用${Cx('2a B-R')}，選可回收型${C1('1 B-R')}，風險下降後盡快取出${C1('1 C-LD')}`);
+  if(isFinite(cr)&&cr<30)out.push(`CrCl <30：用 LMWH 時監測 anti-Xa 合理${Cx('2a C-LD')}；CKD 4–5 或透析，apixaban 是否優於 VKA 不確定${Cx('2b B-NR')}；ESC 建議此時用 UFH`);
+  return out;
+}
+function doses(Pin){
+  const P=normalizeP(Pin),w=n(P.wt),cr=n(P.crcl),hasW=w>0,lowCr=isFinite(cr)&&cr<30;
+  return {
+    ufh:hasW?Math.round(80*w)+' U → '+Math.round(18*w)+' U/h':'—',
+    enox:hasW?Math.round(w)+' mg '+(lowCr?'q24h':'q12h'):'—',
+    fonda:lowCr?'CrCl <30 禁用':hasW?(w<50?'5 mg':w<=100?'7.5 mg':'10 mg')+' qd':'—',
+    accel:hasW?Math.min(50,r1(0.6*w))+' mg，15 分鐘':'0.6 mg/kg，15 分鐘',
+    avoidDoac:!!P.pop.preg,lowCr};
+}
+return {n,newP,normalizeP,HEMO,HYPO,RESP,SCORE,SPESI_KEYS,RV,CI_ABS,CI_REL,POP,ESC_NAME,calc,escPlan,ahaPlan,ADV,popNotes,doses};
+})();
+/*ENGINE-END*/
+
+</script>
+<script>
+/*TEACH-START*/
+const CASES=[
+{id:'c1',title:'口服避孕藥、胸膜痛，能回家嗎？',tag:'B2 · 門診',
+ story:'42 歲女性，服用口服避孕藥，右胸吸氣痛 2 天。CTPA：右下葉節段栓塞。',
+ data:['HR 92、BP 128/76、RR 18、SpO₂ 97%（室內空氣）','無癌症、無慢性心肺病','CT RV/LV 0.8；troponin 正常','體重 62 kg、CrCl 95；家人可陪同，3 天內可回診'],
+ q:'風險分類是什麼？可以門診治療嗎？',
+ P:{age:'42',sex:'F',loc:'seg',rvChecked:true,trop:'nl',wt:'62',crcl:'95'},
+ expect:{esc:'low',aha:'B2'},
+ why:['sPESI 0，RV 與 troponin 正常：ESC 低風險、AHA/ACC B2。','門診治療合理（AHA/ACC 2a B-R；ESC IIa A），但要能立即取得抗凝血劑，且有可靠回診。','首選 DOAC；apixaban 或 rivaroxaban 可直接開始，不必先打針。','雌激素屬次要可逆因子（Table 9）：3–6 個月後，是否停藥與病人共同決定（2a B-NR）。'],
+ pit:'分數低不代表一定能回家。社會支持、出血風險與取藥管道，都要一起評估。'},
+{id:'c2',title:'分期 CT 意外發現，兩份指引差很多',tag:'A · 分類不一致',
+ story:'66 歲男性，肺癌分期 CT 意外發現左下葉次節段栓塞，完全沒有症狀。',
+ data:['HR 78、BP 134/80、RR 16、SpO₂ 96%','CT RV/LV 0.8；未測 troponin','體重 72 kg、CrCl 70'],
+ q:'為什麼 ESC 與 AHA/ACC 分類差這麼多？下一步怎麼做？',
+ P:{age:'66',sex:'M',asym:true,loc:'sub',rvChecked:true,pe:{ca:true},pop:{cancer:true},wt:'72',crcl:'70'},
+ expect:{esc:'iml',aha:'A'},
+ why:['癌症使 sPESI 為 1，ESC 依分數列中低風險；ESC 沒有獨立的無症狀分類。','AHA/ACC 列 A 類：無症狀、偶然發現，可由急診出院，指引以此類肺癌病人為例。','Figure 3 建議 A 類開始 DOAC；全身溶栓有害，其他進階治療無益。','活動性癌症屬持續風險因子：延長期用 DOAC 或 LMWH，優於 VKA（1 A）。'],
+ pit:'不要只照 ESC 的「住院」直接收治，也不要因無症狀就不治療。出院前要有抗凝血計畫與追蹤。'},
+{id:'c3',title:'懷孕 28 週，SpO₂ 88%',tag:'C1-R · 懷孕',
+ story:'31 歲，懷孕 28 週，突發喘與心悸。影像確認雙側葉動脈栓塞。',
+ data:['HR 104、BP 112/68、RR 24、SpO₂ 88%（室內空氣），3 L/min 後 95%','RV/LV 0.8、TAPSE 22 mm；troponin 與 BNP 正常','體重 70 kg、CrCl 110'],
+ q:'分類與 R 修飾為何？抗凝血用什麼？',
+ P:{age:'31',sex:'F',loc:'prox',pe:{spo2:true},resp:{c:true},rvChecked:true,trop:'nl',bnp:'nl',ci:{preg:true},pop:{preg:true},wt:'70',crcl:'110'},
+ expect:{esc:'iml',aha:'C1-R'},
+ why:['SpO₂ <90% 使 sPESI 為 1，因此進入 C 類；RV 與生物標記正常為 C1。','C 類的 R：SpO₂ <90%、RR ≥30 或需要氧氣，這裡成立。','懷孕用 LMWH 或 UFH（1 C-LD）；DOAC 與 warfarin 可能有害（3: Harm）。','C1 全身溶栓有害（3: Harm A），懷孕也是 ESC 的相對禁忌。','Peak anti-Xa 每孕期監測的效益未確立（2b C-LD）。'],
+ pit:'C 類的 R 門檻比 D 類低。把「>6 L/min 或非再吸入面罩」套到 C 類，會漏掉這位病人的 R。'},
+{id:'c4',title:'BNP 上升，算不算生物標記異常？',tag:'C2-R · CKD',
+ story:'74 歲男性，COPD 與 CKD 4 期，喘 3 天。CTPA：右肺葉與節段栓塞。',
+ data:['HR 102、BP 122/70、RR 22、SpO₂ 93%（2 L/min）','RV/LV 0.85、TAPSE 19 mm','Troponin 正常；NT-proBNP 上升','體重 68 kg、CrCl 24'],
+ q:'AHA/ACC 是 C1 還是 C2？劑量要注意什麼？',
+ P:{age:'74',sex:'M',loc:'prox',pe:{lung:true},resp:{c:true},rvChecked:true,trop:'nl',bnp:'up',wt:'68',crcl:'24'},
+ expect:{esc:'iml',aha:'C2-R'},
+ why:['Figure 2 的 C2 是「RV 異常或 ≥1 個生物標記異常」，內文明列包含 BNP，所以是 C2。','ESC 亞分層著重 troponin，因此仍是中低風險。','C2：全身溶栓有害（3: Harm B-R）；CDL 與機械取栓效益不明（2b C-LD）。','CrCl 24：enoxaparin 改 1 mg/kg q24h，監測 anti-Xa 合理（2a C-LD）；ESC 建議此時用 UFH。','Fondaparinux 在 CrCl <30 禁用。'],
+ pit:'需要 2 L/min 氧氣就符合 C 類的 R。COPD 若平時已在家用氧，要判斷這是否為新增需求（工具無法分辨）。'},
+{id:'c5',title:'中高風險，等待還是介入？',tag:'C3 · HI-PEITHO',
+ story:'64 歲男性，長途飛行後突發喘。CTPA：雙側主肺動脈栓塞，沒有低灌流。',
+ data:['HR 112、BP 102/66（MAP 78）、RR 24、SpO₂ 94%（室內空氣）','RV/LV 1.3、TAPSE 14 mm','Troponin 與 BNP 上升；乳酸 1.6','體重 84 kg、CrCl 80'],
+ q:'MAP 78 與 HI-PEITHO 如何影響你的決定？',
+ P:{age:'64',sex:'M',loc:'prox',pe:{hr:true},rv:{ratio:true,tapse:true},trop:'up',bnp:'up',wt:'84',crcl:'80'},
+ expect:{esc:'imh',aha:'C3'},
+ why:['ESC 中高風險、AHA/ACC C3：先用 LMWH（1 B-R），啟動 PERT，監測 24–72 小時。','MAP <80 可協助找出可能需要升級治療者（2a B-NR）。','指引：全身溶栓、CDL、機械取栓在 C3 都是 2b；ESC 不建議常規溶栓（III B），惡化才救援。','此人符合 HI-PEITHO 納入條件：RV/LV ≥1.0、troponin 上升，且 SBP ≤110、HR ≥100、RR >20 中 ≥2 項。','HI-PEITHO：7 天複合事件 4.0% vs 10.3%（RR 0.39），主要差在心肺惡化；7 天大出血 4.1% vs 2.2%（P=0.32）。廠商贊助，且晚於指引文獻檢索。'],
+ pit:'試驗結果沒有改變指引的 COR。是否介入要交給 PERT，並說明這是指引之後的新證據。'},
+{id:'c6',title:'血壓正常的休克，手術後 6 天',tag:'D2-R · 溶栓禁忌',
+ story:'57 歲女性，脊椎手術後第 6 天突發喘與冒汗。CTPA：騎跨型栓塞。',
+ data:['HR 124、BP 104/62、RR 30、SpO₂ 86%，改非再吸入面罩','乳酸 3.4；肌酸酐上升；4 小時尿量 40 mL','RV/LV 1.5、McConnell sign；troponin 上升','體重 66 kg、CrCl 55'],
+ q:'為什麼 ESC 不是高風險？有溶栓禁忌時怎麼辦？',
+ P:{age:'57',sex:'F',loc:'prox',hypo:{lac:true,aki:true},pe:{hr:true,rr:true,spo2:true},resp:{d:true},rv:{ratio:true,mcc:true},trop:'up',bnp:'up',ci:{trauma:true},wt:'66',crcl:'55'},
+ expect:{esc:'imh',aha:'D2-R'},
+ why:['ESC 高風險必須有低血壓，所以只到中高風險；AHA/ACC 列 D2，常血壓休克的死亡風險高，不要低估。','D 類的 R：>6 L/min 鼻導管或非再吸入面罩，這裡成立。','3 週內手術是溶栓絕對禁忌：機械取栓（2b B-NR）或外科取栓（2b C-LD）列入討論。','升壓劑和／或強心劑（D2：1 C-LD）；避免深度鎮靜與插管（3: Harm C-LD），必要時先備好血流動力學支持（1 C-LD）。','初始抗凝血：LMWH 優於 UFH，但術後出血風險要與外科討論。'],
+ pit:'只看血壓會錯過這類病人。乳酸與尿量要主動查。'},
+{id:'c7',title:'持續低血壓，無溶栓禁忌',tag:'E1 · 再灌流',
+ story:'59 歲男性，暈厥後送急診。床邊超音波 RV 明顯擴大，CTPA 為騎跨型栓塞。',
+ data:['BP 78/50 持續 30 分鐘，norepinephrine 8 μg/min 後 92/58','HR 128、SpO₂ 92%（4 L/min）；嗜睡、乳酸 5.1','RV/LV 1.6；troponin 上升','體重 80 kg、CrCl 60；無出血史'],
+ q:'再灌流怎麼選？heparin 用哪一種？',
+ P:{age:'59',sex:'M',hemo:'persist',loc:'prox',hypo:{lac:true,ams:true},pe:{hr:true,sbp:true,ams:true},resp:{c:true},rv:{ratio:true},trop:'up',wt:'80',crcl:'60'},
+ expect:{esc:'high',aha:'E1'},
+ why:['ESC 高風險、AHA/ACC E1。','全身溶栓：ESC I B；AHA/ACC 2a C-LD。Alteplase 100 mg 輸注 2 小時。','AHA/ACC E1 中 CDL、機械取栓、外科取栓也都是 2a，依現場能力由 PERT 決定。','兩份指引在 heparin 上不同：ESC 高風險用 UFH 含負荷（I C）；AHA/ACC C1–E1 建議 LMWH 優於 UFH（1 B-R）。','Norepinephrine 優先，超過 15 μg/min 可能升高 PVR，宜加第二種藥；此階段避免大量輸液。'],
+ pit:'Alteplase 100 mg 是固定劑量，不需依體重計算；工具算出的 0.6 mg/kg 是加速方案。'},
+{id:'c8',title:'目擊心跳停止，PEA',tag:'E2-R · ECMO',
+ story:'68 歲女性，中風後長期臥床、3 天來單腳腫，在急診目擊心跳停止，初始 PEA。超音波 RV 嚴重擴大，臨床高度懷疑 PE。',
+ data:['CPR 中，已插管','無法做 CTPA','中風已超過 2 年且為缺血性；無出血史','體重 60 kg；本院有 ECMO 團隊'],
+ q:'哪些選項合理？哪個指引明確不建議？',
+ P:{age:'68',sex:'F',hemo:'arrest',resp:{vent:true},rv:{ratio:true},wt:'60'},
+ expect:{esc:'high',aha:'E2-R'},
+ why:['AHA/ACC E2-R：心跳停止加上已使用侵襲性通氣。','全身溶栓合理（2a C-LD）；加速方案 0.6 mg/kg，此處 36 mg 給 15 分鐘（ESC 註明非正式核准，用於極端不穩定）。','VA-ECMO 合理（2a B-NR）；ECMO 期間無出血就持續抗凝血（1 B-NR）。','外科取栓在 E2 不建議（3: NB B-NR）；CDL 與機械取栓列 N/A。','ESC 則寫 ECMO 可合併外科取栓或導管治療（IIb C），與 AHA/ACC 不完全相同。'],
+ pit:'Figure 2 把心跳停止列入 E2，內文則寫復甦 30 分鐘仍無 ROSC。不要為了等分類而延誤溶栓或 ECMO 的決定。'}
+];
+
+const QUIZ=[
+{lv:'基礎',q:'AHA/ACC C 類的呼吸修飾 R，門檻是哪一項？',o:['SpO₂ <90%、RR ≥30 或需要氧氣','氧氣 >6 L/min 或非再吸入面罩','需要 NIV 或侵襲性機械通氣','RR >25 且 PaO₂/FiO₂ <300'],a:0,why:'Figure 2：C 類 R 為 O₂ <90%、RR ≥30、需要氧氣；>6 L/min 或 NRB 是 D 類；NIV／插管是 E 類。'},
+{lv:'基礎',q:'有症狀、右下葉節段栓塞、sPESI 0、RV 與 troponin 正常，AHA/ACC 分類是？',o:['A 類','B2 類','B1 類','C1 類'],a:1,why:'有症狀且分數低為 B；次節段是 B1，節段以上是 B2。',eng:{P:{age:'42',sex:'F',loc:'seg',rvChecked:true,trop:'nl'},aha:'B2'}},
+{lv:'基礎',q:'SBP 104 mmHg，乳酸 3.4 mmol/L、肌酸酐上升，AHA/ACC 分類是？',o:['C3 類','D1 類','D2 類','E1 類'],a:2,why:'血壓正常但有低灌流，就是常血壓休克（normotensive shock），屬 D2。',eng:{P:{age:'57',hypo:{lac:true,aki:true},pe:{hr:true},rv:{ratio:true},trop:'up'},aha:'D2'}},
+{lv:'基礎',q:'C1–E1 類需要注射抗凝血時，AHA/ACC 建議？',o:['UFH 優於 LMWH','Fondaparinux 優於 LMWH','兩者相同，依習慣選擇','LMWH 優於 UFH'],a:3,why:'COR 1 B-R：LMWH 優於 UFH，可減少復發與大出血。E2 類 Figure 3 列 LMWH 或 UFH。'},
+{lv:'基礎',q:'癌症分期 CT 偶然發現 PE、完全無症狀（A 類），指引的處置方向是？',o:['開始 DOAC，可由急診出院','住院並啟動 PERT','只追蹤影像，不用抗凝血','收治並給低劑量溶栓'],a:0,why:'Take-home 2 與 Figure 3：A 類可由急診出院，並開始 DOAC。'},
+{lv:'基礎',q:'AHA/ACC 建議哪些類別接受多專科 PERT 評估（COR 1）？',o:['只有 E 類','C–E 類','D–E 類','所有類別'],a:1,why:'COR 1 B-NR：C–E 類。A、B 類合併多重共病也可能受益（例如合併顱內出血）。'},
+{lv:'基礎',q:'C2 類的全身性血栓溶解，AHA/ACC 建議強度是？',o:['2a 合理','2b 可考慮','3: Harm 有害','1 建議使用'],a:2,why:'Table 7：C2 全身溶栓 3-Harm B-R，CDL 與機械取栓才是 2b（效益不明）。',eng:{adv:{cat:'C2',i:0,val:'3: Harm B-R'}}},
+{lv:'基礎',q:'懷孕合併急性 PE 且可接受抗凝血，應選擇？',o:['DOAC','Warfarin','Fondaparinux 為首選','LMWH 或 UFH'],a:3,why:'LMWH 或 UFH 為 COR 1 C-LD；DOAC 與 warfarin 為 3: Harm C-LD，可能造成流產或胎兒異常。'},
+{lv:'基礎',q:'下列何者符合 ESC 2019 高風險的定義？',o:['SBP <90 持續 >15 分鐘，且非心律不整、低血容或敗血症','SBP 105、乳酸 3 mmol/L','sPESI ≥3 且 troponin 上升','RV/LV 1.5 且 troponin 上升'],a:0,why:'ESC 高風險：心跳停止、阻塞性休克、持續低血壓三者之一。常血壓休克不在定義內。'},
+{lv:'基礎',q:'PE 後篩檢 CTEPD，指引的建議是？',o:['只在出院時問一次症狀','至少 1 年內每次回診都問症狀','所有病人 3 個月都做 V/Q 掃描','無症狀者半年內做右心導管'],a:1,why:'Take-home 10：每次回診都詢問症狀與功能受限，至少持續 1 年。'},
+{lv:'高階',q:'HI-PEITHO 的「心肺窘迫」納入條件是什麼？',o:['乳酸 >2 且尿量 <0.5 mL/kg/h','PESI ≥III 且 BNP 上升','SBP ≤110、HR ≥100、RR >20 中至少 2 項','SBP <90 持續 <15 分鐘'],a:2,why:'另須 RV/LV ≥1.0 且 troponin 上升。主要終點 7 天 4.0% vs 10.3%（RR 0.39）；廠商贊助。'},
+{lv:'高階',q:'C3 類中，哪個血流動力學數值可協助找出可能需要升級治療者？',o:['CVP >12 mmHg','Shock index >0.7','RVSP >60 mmHg','MAP <80 mmHg'],a:3,why:'2a B-NR：C3 類 MAP <80 可協助找出需升級者；義大利登錄研究最佳切點為 81.5 mmHg。'},
+{lv:'高階',q:'CDL 時 alteplase 每條肺動脈 <5 mg，相較於 5–10 mg，指引怎麼說？',o:['不建議（3: No Benefit）以此降低出血或惡化','建議使用（COR 1）以降低出血','合理（2a）且不增加惡化','尚未討論，由術者自行決定'],a:0,why:'CDL 建議第 5 項：3: No Benefit B-NR。標準劑量為每條肺動脈 5–10 mg。'},
+{lv:'高階',q:'E1 類使用 norepinephrine，劑量升高時要注意什麼？',o:['>5 μg/min 就應立刻改用 epinephrine','>15 μg/min 可能升高 PVR，宜加第二種藥','>30 μg/min 才會影響 PVR，可持續加量','任何劑量都明顯升高 PVR，應避免'],a:1,why:'指引支持性內文：≤15 μg/min 對 PVR 影響小；更高時可能升高 PVR，宜加 vasopressin 或 phenylephrine。'},
+{lv:'高階',q:'E2 類（難治性休克或心跳停止），下列哪項明確不建議？',o:['VA-ECMO','全身性血栓溶解','外科取栓','持續抗凝血'],a:2,why:'Table 7：E2 外科取栓 3-NB B-NR；全身溶栓與 VA-ECMO 皆為 2a；CDL、機械取栓列 N/A。',eng:{adv:{cat:'E2',i:3,val:'3: NB B-NR'}}},
+{lv:'高階',q:'sPESI 0，但 RV 功能不全且 troponin 上升，依 ESC 2019 內文應歸類為？',o:['低風險','高風險','中高風險','中低風險'],a:3,why:'ESC 內文：低 PESI 或 sPESI 0 卻有 RV 或生物標記異常，歸入中低風險，直到其臨床意義釐清。',eng:{P:{age:'50',rv:{ratio:true},trop:'up'},esc:'iml'}},
+{lv:'高階',q:'C3–E2 類合併右心游離血栓（clot-in-transit），指引建議是？',o:['進階治療優於單純抗凝血（2a）','單純抗凝血優於進階治療（1）','一律外科取栓（COR 1）','屬於進階治療的禁忌（3: Harm）'],a:0,why:'2a C-LD。PERT Registry 顯示 clot-in-transit 與死亡獨立相關（OR 2.26）。'},
+{lv:'高階',q:'若要監測 LMWH，anti-Xa 應何時抽血？',o:['任一次給藥前的谷值','穩定後（≥3 劑）給藥後 3–5 小時的峰值','第一劑後 30 分鐘','24 小時內隨機抽血即可'],a:1,why:'COR 1 C-LD。但多數用體重劑量的病人不需要例行監測（3: No Benefit A）。'},
+{lv:'高階',q:'延長期（超過 3–6 個月）的抗凝血，指引建議哪種方式？',o:['低劑量 aspirin 取代抗凝血','INR 1.5–2.0 的低強度 warfarin','半劑量 apixaban 或 rivaroxaban','每季輪流更換 DOAC'],a:2,why:'COR 1 A。有禁忌或拒絕抗凝血時，低劑量 aspirin 優於不治療（2a B-R）。'},
+{lv:'高階',q:'PEITHO 中，tenecteplase 組相較於安慰劑組的中風發生率是？',o:['0.2% vs 0.2%','1.2% vs 6.3%','6.3% vs 1.2%','2.4% vs 0.2%'],a:3,why:'中風 2.4% vs 0.2%，tenecteplase 組多為出血性；顱外出血 6.3% vs 1.2%。'}
+];
+
+const MAP={t:'急性肺栓塞',c:[
+ {t:'1. 先判斷血流動力學',c:[
+  {t:'穩定：看低灌流（乳酸、尿量、意識）'},{t:'短暫低血壓：<15 分鐘或輸液有反應'},{t:'持續低血壓：>15 分鐘或需升壓劑'},{t:'難治性休克、心跳停止'}]},
+ {t:'2. 分數與右心',c:[
+  {t:'PESI（≤85 為低）；sPESI（0 為低）；Hestia'},{t:'RV：RV/LV ≥1.0（ESC）或 >0.9（AHA/ACC 超音波）、TAPSE、McConnell'},{t:'生物標記：troponin、BNP；C–E 類同時測乳酸（COR 1）'}]},
+ {t:'3. ESC 2019',c:[
+  {t:'高風險：心跳停止、阻塞性休克、持續低血壓'},{t:'中高風險：分數高，且 RV＋troponin 皆異常'},{t:'中低風險：分數高但未皆異常；或分數低而 RV／標記異常'},{t:'低風險：分數低且 RV 正常'}]},
+ {t:'4. AHA/ACC 2026 類別',c:[
+  {t:'A：無症狀、偶然發現'},{t:'B1 次節段／B2 非次節段：有症狀、分數低'},{t:'C1 皆正常／C2 其一異常／C3 RV＋標記皆異常'},{t:'D1 短暫低血壓／D2 常血壓休克'},{t:'E1 持續低血壓合併休克／E2 難治性休克或心跳停止'}]},
+ {t:'5. 呼吸修飾 R',c:[
+  {t:'C 類：SpO₂ <90%、RR ≥30 或需要氧氣'},{t:'D 類：>6 L/min 鼻導管或非再吸入面罩'},{t:'E 類：需要 NIV 或侵襲性通氣'},{t:'避免深度鎮靜與插管（C–E，3: Harm）'}]},
+ {t:'6. 抗凝血',c:[
+  {t:'A、B：DOAC；門診治療 2a'},{t:'C1–E1：LMWH 優於 UFH（COR 1）；E2：LMWH 或 UFH'},{t:'ESC 高風險：UFH 含負荷（I C）'},{t:'溶栓或血管內處置後：LMWH 優於 UFH（COR 1）'},{t:'Anti-Xa：多數不需要；CrCl <30 時合理'}]},
+ {t:'7. 進階治療（Table 7）',c:[
+  {t:'A–C1：溶栓 3-Harm；其他 3-NB'},{t:'C2：溶栓 3-Harm；CDL、MT 2b'},{t:'C3：溶栓、CDL、MT 2b；手術 3-NB'},{t:'D：全部 2b'},{t:'E1：全部 2a'},{t:'E2：溶栓、VA-ECMO 2a；手術 3-NB'},{t:'右心游離血栓（C3–E2）：進階治療 2a'}]},
+ {t:'8. 血流動力學支持',c:[
+  {t:'D2–E2：升壓劑或強心劑（COR 1）'},{t:'Norepinephrine >15 μg/min 可能升高 PVR'},{t:'D 類懷疑前負荷不足才輸液（2b）'},{t:'吸入型肺血管擴張劑（C2–E，2b）'}]},
+ {t:'9. 特殊族群',c:[
+  {t:'懷孕：LMWH 或 UFH；DOAC、warfarin 有害'},{t:'哺乳：LMWH、UFH 或 warfarin 優於 DOAC'},{t:'血栓性 APS：VKA 優於 DOAC'},{t:'CKD 4–5：apixaban 是否優於 VKA 不確定（2b）'},{t:'Child-Pugh C：不用 DOAC'},{t:'無法抗凝血：可回收 IVC filter'}]},
+ {t:'10. 後續',c:[
+  {t:'主要可逆因子：3–6 個月停藥（COR 1）'},{t:'次要可逆因子：共同決策（2a）'},{t:'無可逆因子或持續因子：延長治療（COR 1）'},{t:'延長期可用半劑量 apixaban 或 rivaroxaban（COR 1）'},{t:'至少 1 年內每次回診詢問症狀，篩檢 CTEPD'}]}
+]};
+/*TEACH-END*/
+
+</script>
+<script>
+(function(){
+const KEY='pe-v1';
+const {n,newP,normalizeP,HEMO,HYPO,RESP,SCORE,SPESI_KEYS,RV,CI_ABS,CI_REL,POP,ESC_NAME,calc,escPlan,ahaPlan,ADV,popNotes,doses}=PEE;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const defS=()=>({beds:Array.from({length:12},(_,i)=>String(i+1)),bed:'1',data:{}});
 let S;
 try{S=Object.assign(defS(),JSON.parse(localStorage.getItem(KEY)||'{}'));}catch(e){S=defS();}
 if(!Array.isArray(S.beds)||!S.beds.length)S.beds=defS().beds;
+S.beds=S.beds.map(String);
 if(!S.beds.includes(S.bed))S.bed=S.beds[0];
 if(!S.data||typeof S.data!=='object')S.data={};
+Object.keys(S.data).forEach(k=>{S.data[k]=normalizeP(S.data[k]);});
+/* 示範病例只放在記憶體，不寫進床號資料 */
+let demo=null;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
-const P_=()=>S.data[S.bed]||(S.data[S.bed]=newP());
+const P_=()=>demo?demo.P:(S.data[S.bed]||(S.data[S.bed]=newP()));
+const TABS=[['tool','決策工具'],['cases','示範病例'],['quiz','考題'],['map','心智圖']];
+const tabNow=()=>{const h=location.hash.slice(1);return TABS.some(t=>t[0]===h)?h:'tool';};
+const quiz={};
 
-/* ---------- 內容 ---------- */
-const HEMO=[
- ['stable','穩定','SBP ≥90 mmHg，沒有低血壓'],
- ['transient','短暫低血壓','SBP <90 或下降 >40 mmHg，持續 <15 分鐘或輸液後恢復'],
- ['persist','持續低血壓或休克','SBP <90 或下降 ≥40 mmHg 超過 15 分鐘，或需升壓劑維持 SBP ≥90'],
- ['refractory','難治性休克','對升壓劑反應差（SCAI 休克分期 D–E）'],
- ['arrest','心跳停止','需要心肺復甦']];
-const HYPO=[['lac','乳酸 >2 mmol/L'],['aki','急性腎損傷或尿量 <0.5 mL/kg/h'],['ams','意識改變'],['cold','皮膚濕冷'],['ci','心輸出指數 ≤2.2 L/min/m² 或 MAP <60 mmHg']];
-const RESP=[['o2','氧氣需求 >6 L/min 鼻導管、需非再吸入面罩，或 RR >25'],['vent','需要 NIV 或插管']];
-const SPESI=[['age','年齡 >80 歲'],['ca','癌症'],['cp','慢性心衰竭或慢性肺病'],['hr','心率 ≥110 次/分'],['sbp','收縮壓 <100 mmHg'],['spo2','SpO₂ <90%']];
-const PESI=[['ca','癌症',30],['hf','慢性心衰竭',10],['lung','慢性肺病',10],['hr','心率 ≥110 次/分',20],['sbp','收縮壓 <100 mmHg',30],['rr','呼吸 ≥30 次/分',20],['temp','體溫 <36 °C',20],['ams','意識改變',60],['spo2','SpO₂ <90%',20]];
-const RV=[['ratio','RV/LV 直徑比 ≥1.0（CTPA 或心臟超音波；AHA/ACC 採 >0.9）'],['tapse','TAPSE <16 mm'],['mcc','McConnell sign 或 60/60 sign'],['septum','心室中隔變平（D 字形）'],['rvbasal','RV 基底直徑 >42 mm']];
-const CI_ABS=[['hstroke','出血性中風或原因不明的中風病史'],['istroke','6 個月內缺血性中風'],['cns','中樞神經腫瘤'],['trauma','3 週內重大外傷、手術或頭部外傷'],['diath','出血體質'],['bleed','活動性出血']];
-const CI_REL=[['tia','6 個月內 TIA'],['oac','正在使用口服抗凝血劑'],['preg','懷孕或產後 1 週內'],['punct','無法壓迫的穿刺部位'],['cpr','創傷性心肺復甦'],['htn','難控制的高血壓（SBP >180）'],['liver','嚴重肝病'],['ie','感染性心內膜炎'],['ulcer','活動性消化性潰瘍']];
-
-/* ---------- 計算 ---------- */
-function calc(P){
-  const age=n(P.age);
-  const autoAge=isFinite(age)?age>80:null;
-  const sp=SPESI.reduce((a,[k])=>a+((k==='age'?(autoAge??!!P.sp.age):!!P.sp[k])?1:0),0);
-  const pesi=(isFinite(age)?age:0)+(P.sex==='M'?10:0)+PESI.reduce((a,[k,,p])=>a+(P.pe[k]?p:0),0);
-  const pesiCls=pesi<=65?'I':pesi<=85?'II':pesi<=105?'III':pesi<=125?'IV':'V';
-  const sevHigh=P.scoreMode==='pesi'?(isFinite(age)&&pesi>85):sp>=1;
-  const sevKnown=P.scoreMode==='pesi'?isFinite(age):true;
-  const rvDys=RV.some(([k])=>P.rv[k]);
-  const tropUp=P.trop==='up', tropKnown=P.trop!=='';
-  const bnpUp=P.bnp==='up';
-  const hypoperf=HYPO.some(([k])=>P.hypo[k]);
-  const respMod=P.resp.vent||P.resp.o2;
-  const absCI=CI_ABS.some(([k])=>P.ci[k]), relCI=CI_REL.some(([k])=>P.ci[k]);
-  // ESC 2019
-  let esc,escL,escWhy;
-  if(['persist','refractory','arrest'].includes(P.hemo)||(P.hemo==='transient'&&hypoperf)){esc='high';escL=4;escWhy=P.hemo==='arrest'?'心跳停止':P.hemo==='transient'?'低血壓合併器官低灌流（阻塞性休克）':'血行動力學不穩定';}
-  else if(sevHigh||rvDys||tropUp){
-    if(rvDys&&tropUp&&sevHigh){esc='imh';escL=3;escWhy='PESI III–V 或 sPESI ≥1，且 RV 功能不全與 troponin 上升兩者皆有';}
-    else{esc='iml';escL=2;escWhy=sevHigh?'PESI III–V 或 sPESI ≥1，RV 功能不全與 troponin 上升未同時存在':'臨床分數低，但有 RV 功能不全或 troponin 上升（ESC：歸為中低風險）';}
-  }else{esc='low';escL=0;escWhy='PESI I–II 或 sPESI 0，無 RV 功能不全、troponin 正常';}
-  // AHA/ACC 2026
-  let aha,ahaL,ahaWhy;
-  if(P.hemo==='arrest'||P.hemo==='refractory'){aha='E2';ahaL=4;ahaWhy=P.hemo==='arrest'?'心跳停止':'難治性心因性休克';}
-  else if(P.hemo==='persist'){aha='E1';ahaL=4;ahaWhy='反覆或持續低血壓合併心因性休克';}
-  else if(P.hemo==='transient'&&hypoperf||P.hemo==='stable'&&hypoperf){aha='D2';ahaL=3;ahaWhy='血壓正常或短暫低血壓，但有低灌流（normotensive shock）';}
-  else if(P.hemo==='transient'){aha='D1';ahaL=3;ahaWhy='短暫低血壓、輸液有反應，沒有低灌流';}
-  else if(P.asym){aha='A';ahaL=0;ahaWhy='無症狀、影像偶然發現';}
-  else if(!sevHigh&&!rvDys&&!tropUp){aha=P.loc==='sub'?'B1':P.loc?'B2':'B';ahaL=0;ahaWhy='有症狀、臨床嚴重度分數低（sPESI 0／PESI ≤85），RV 與 troponin 正常';}
-  else{
-    const cnt=(rvDys?1:0)+(tropUp?1:0);
-    aha=cnt===2?'C3':cnt===1?'C2':'C1';ahaL=cnt===2?2:cnt===1?1:1;
-    ahaWhy=cnt===2?'RV 功能不全與 troponin 上升兩者皆有':cnt===1?'RV 功能不全或 troponin 上升其中一項':'嚴重度分數升高，biomarker 與 RV 正常';
-    if(!sevHigh)ahaWhy+='（臨床分數雖低，但因 RV 或 troponin 異常歸入 C）';
-  }
-  const ahaR=aha==='A'?'':aha[0]==='E'?(P.resp.vent?'-R':''):(respMod?'-R':'');
-  return {age,sp,pesi,pesiCls,sevHigh,sevKnown,rvDys,tropUp,tropKnown,bnpUp,hypoperf,respMod,absCI,relCI,esc,escL,escWhy,aha,ahaL,ahaWhy,ahaR};
-}
-const ESC_NAME={high:'高風險',imh:'中高風險',iml:'中低風險',low:'低風險'};
-const cor=(t,c)=>`<span class="cor ${c==='1'?'c1':c==='3'?'c3':''}">${t}</span>`;
-function escPlan(c){
-  if(c.esc==='high')return [
-    `立即給 UFH（含負荷劑量）${cor('I','1')}`,
-    `全身性血栓溶解${cor('I B','1')}${c.absCI?'　<b>有絕對禁忌</b>：改外科取栓或導管治療':c.relCI?'　有相對禁忌：評估出血風險':''}`,
-    `溶栓禁忌或失敗：外科取栓${cor('I C','1')}；經皮導管治療可作為替代${cor('IIa C')}`,
-    `低血壓：norepinephrine 和／或 dobutamine${cor('IIa C')}；避免大量輸液`,
-    `ECMO 可與外科取栓或導管治療合併使用${cor('IIb C')}`];
-  if(c.esc==='imh')return [
-    `抗凝血：LMWH 或 fondaparinux 優於 UFH${cor('I A','1')}`,
-    `住院監測，最初數小時至數天密切觀察血行動力學`,
-    `出現血行動力學惡化：救援性血栓溶解${cor('I B','1')}；外科取栓或導管治療為替代${cor('IIa C')}`,
-    `<b>不建議常規初始全身性血栓溶解</b>${cor('III B','3')}`];
-  if(c.esc==='iml')return [
-    `抗凝血：LMWH 或 fondaparinux 優於 UFH${cor('I A','1')}；穩定後可改 NOAC`,
-    `住院治療`,`不建議常規全身性血栓溶解${cor('III B','3')}`];
-  return [
-    `可考慮提早出院並在家治療（需有適當門診照護）${cor('IIa A')}`,
-    `NOAC 優於 VKA（無禁忌時）${cor('I A','1')}`];
-}
-function ahaPlan(c){
-  const a=c.aha,base=`抗凝血：DOAC 優於 VKA${cor('1','1')}；需注射時 LMWH 優於 UFH${cor('1','1')}`;
-  if(a==='A')return ['可在急診出院；是否抗凝血依栓塞位置與是否合併 DVT 決定','不需進階治療'];
-  if(a[0]==='B')return ['可提早出院或門診治療'+cor('2a'),base+'（DOAC 優先）','不需 PERT 或進階治療',a==='B1'?'單一次節段栓塞：依出血風險與 DVT 評估是否抗凝血':''].filter(Boolean);
-  const pert=`啟動 PE 團隊（PERT）${cor('1','1')}，住院`;
-  if(a==='C1')return [pert,base,`全身性血栓溶解：有害，不建議${cor('3: Harm','3')}`,'不需進階治療'];
-  if(a==='C2')return [pert,base,`全身性血栓溶解：有害，不建議${cor('3: Harm','3')}`,'進階治療角色不明；密切監測惡化'];
-  if(a==='C3')return [pert,base,'住院監測 24–72 小時',`進階治療（全身溶栓、導管治療、機械取栓）可在選擇性病人考慮${cor('2b')}；HI-PEITHO（2026）支持導管治療`];
-  if(a==='D1'||a==='D2')return [pert,'抗凝血：LMWH 或 UFH（預期進階治療時可選 UFH）',`進階治療（全身溶栓、導管溶栓、機械取栓、外科取栓）可考慮${cor('2b')}`,'密切監測乳酸、尿量與血壓，準備升級'];
-  if(a==='E1')return [pert+'，加護病房','抗凝血：UFH 或 LMWH',`全身性溶栓、導管溶栓、機械取栓或外科取栓：合理${cor('2a')}${c.absCI?'　<b>有溶栓絕對禁忌</b>：選機械取栓或外科取栓':''}`];
-  return [pert+'，加護病房','抗凝血：UFH 或 LMWH',`VA-ECMO：合理${cor('2a')}`,`全身性血栓溶解：合理${cor('2a')}`,`外科取栓：不建議${cor('3: No benefit','3')}`];
-}
-
-/* ---------- 渲染 ---------- */
+/* ---------- 工具分頁 ---------- */
 const ck=(grp,k,l,sub,kind,auto)=>{const P=P_();const on=auto!==undefined&&auto!==null?auto:!!P[grp][k];const id=`c-${grp}-${k}`;return `<label class="ck ${kind||''}${auto!=null?' auto':''}" for="${id}"><input type="checkbox" id="${id}" data-g="${grp}" data-k="${k}" ${on?'checked':''} ${auto!=null?'disabled':''}><span>${l}${auto!=null?'<em>自動</em>':''}${sub?`<small>${sub}</small>`:''}</span></label>`;};
-function render(){
-  const a=document.activeElement;let fk=null,sel=null;
-  if(a&&a.id){fk='#'+CSS.escape(a.id);try{sel=[a.selectionStart,a.selectionEnd];}catch(e){}}
-  const P=P_(),c=calc(P),w=n(P.wt);
-  $('#beds').innerHTML=S.beds.map(b=>{const d=S.data[b];let lab='—';if(d&&(d.age||d.hemo!=='stable'||Object.keys(d.sp).length||d.trop)){const cc=calc(d);lab=cc.aha+' · '+ESC_NAME[cc.esc];}return `<button type="button" class="bedbtn" data-bed="${esc(b)}" aria-current="${b===S.bed}">${esc(b)}<small>${lab}</small></button>`;}).join('');
-  $('#res').innerHTML=`<div class="rchip"><small>ESC 2019</small><b>${ESC_NAME[c.esc]}</b></div><div class="rchip"><small>AHA/ACC 2026</small><b>第 ${c.aha}${c.ahaR} 類</b></div>`;
-
-  const age=c.age,autoAge=isFinite(age)?age>80:null;
+const escTitle=c=>c.assessed?ESC_NAME[c.esc]+(c.escMissing.length?'（暫定）':''):'尚未評估';
+const ahaTitle=c=>c.assessed?`第 ${c.ahaFull} 類`+(c.ahaMissing.length?'（暫定）':''):'尚未評估';
+const ADV_HEAD=['全身溶栓','CDL','機械取栓','外科取栓'];
+const advTone=v=>/^3/.test(v)?'bad':/^2a/.test(v)?'ok':/^2b/.test(v)?'mid':'na';
+function advTable(c){
+  const row=ADV[c.aha],lyticOut=c.absCI;
+  return `<div class="advwrap"><span class="label">進階治療建議強度（Table 7）</span><div class="adv">${ADV_HEAD.map((h,i)=>`<div class="advc ${advTone(row[i])}${lyticOut&&i<2?' out':''}"><small>${h}</small><b>${row[i]}</b>${lyticOut&&i<2?'<small>有溶栓絕對禁忌</small>':''}</div>`).join('')}</div></div>`;
+}
+function renderTool(){
+  const P=P_(),c=calc(P),d=doses(P);
+  $('#beds').innerHTML=S.beds.map(b=>{const dd=S.data[b];let lab='—';if(dd){const cc=calc(dd);if(cc.assessed)lab=cc.ahaFull+' · '+ESC_NAME[cc.esc];}return `<button type="button" class="bedbtn" id="bed-${esc(b)}" data-bed="${esc(b)}" aria-current="${!demo&&b===S.bed}">${esc(b)}<small>${lab}</small></button>`;}).join('');
+  $('#res').innerHTML=`<div class="rchip"><small>ESC 2019</small><b>${escTitle(c)}</b></div><div class="rchip"><small>AHA/ACC 2026</small><b>${ahaTitle(c)}</b></div>`;
+  $('#demobar').hidden=!demo;
+  if(demo)$('#demobar').innerHTML=`<span><b>示範病例：</b>${esc(demo.title)}。這裡的修改不會存入床號。</span><button type="button" class="btn small" data-act="exitDemo">離開示範</button>`;
+  const isP=P.scoreMode==='pesi';
+  const list=isP?SCORE:SCORE.filter(([k])=>SPESI_KEYS.includes(k));
   $('#left').innerHTML=`
   <section class="panel"><div class="sec"><h2><span class="no">1</span>血行動力學</h2><span>最優先判斷</span></div>
-    <div class="radios" role="radiogroup" aria-label="血行動力學">${HEMO.map(([k,l,s])=>`<label><input type="radio" name="hemo" value="${k}" ${P.hemo===k?'checked':''}><span>${l}<small>${s}</small></span></label>`).join('')}</div>
+    <div class="radios" role="radiogroup" aria-label="血行動力學">${HEMO.map(([k,l,s])=>`<label><input type="radio" id="hemo-${k}" name="hemo" value="${k}" ${P.hemo===k?'checked':''}><span>${l}<small>${s}</small></span></label>`).join('')}</div>
     <span class="label">器官低灌流</span><div class="cks two">${HYPO.map(([k,l])=>ck('hypo',k,l,'','neg')).join('')}</div>
-    <span class="label">呼吸（AHA/ACC 呼吸修飾 R）</span><div class="cks">${RESP.map(([k,l])=>ck('resp',k,l,'','neg')).join('')}</div>
+    <span class="label">呼吸（AHA/ACC 呼吸修飾 R，各類門檻不同）</span><div class="cks">${RESP.map(([k,l,s])=>ck('resp',k,l,s,'neg')).join('')}</div>
+    <p class="muted">分數區勾選的 SpO₂ &lt;90% 或呼吸 ≥30 會自動算入 C 類的 R。</p>
   </section>
-  <section class="panel"><div class="sec"><h2><span class="no">2</span>臨床嚴重度</h2><div class="seg" role="group" aria-label="分數">${[['spesi','sPESI'],['pesi','PESI']].map(([k,l])=>`<button type="button" data-mode="${k}" aria-pressed="${P.scoreMode===k}">${l}</button>`).join('')}</div></div>
+  <section class="panel"><div class="sec"><h2><span class="no">2</span>臨床嚴重度</h2><div class="seg" role="group" aria-label="分數">${[['spesi','sPESI'],['pesi','PESI']].map(([k,l])=>`<button type="button" id="mode-${k}" data-mode="${k}" aria-pressed="${P.scoreMode===k}">${l}</button>`).join('')}</div></div>
     <div class="row"><div class="fld" style="width:100px"><label for="p-age">年齡</label><input id="p-age" data-p="age" inputmode="numeric" value="${esc(P.age)}"></div>
       <div class="fld" style="width:90px"><label for="p-sex">性別</label><select id="p-sex" data-ps="sex"><option value="M" ${P.sex==='M'?'selected':''}>男</option><option value="F" ${P.sex==='F'?'selected':''}>女</option></select></div>
-      <label class="ck" style="padding-bottom:8px"><input type="checkbox" data-asym ${P.asym?'checked':''}><span>無症狀、影像偶然發現</span></label></div>
-    ${P.scoreMode==='spesi'?`<div class="cks">${SPESI.map(([k,l])=>ck('sp',k,l,'','neg',k==='age'?autoAge:null)).join('')}</div>
-      <div class="score">sPESI <b>${c.sp}</b><span>${c.sp>=1?'≥1：30 天死亡風險較高':'0：低風險'}</span></div>`
-    :`<div class="cks">${PESI.map(([k,l,p])=>`<label class="ck neg" for="c-pe-${k}"><input type="checkbox" id="c-pe-${k}" data-g="pe" data-k="${k}" ${P.pe[k]?'checked':''}><span>${l}</span><span class="pt">+${p}</span></label>`).join('')}</div>
-      <div class="score">PESI <b>${isFinite(age)?c.pesi:'—'}</b><span>${isFinite(age)?`第 ${c.pesiCls} 級（年齡 ${age}${P.sex==='M'?' + 男性 10':''}）`:'請輸入年齡'}</span></div>`}
+      <label class="ck" style="padding-bottom:8px" for="p-asym"><input type="checkbox" id="p-asym" data-b="asym" ${P.asym?'checked':''}><span>無症狀、影像偶然發現</span></label></div>
+    <div class="cks">${isP?'':`<label class="ck neg ${isFinite(c.age)?'auto':''}" for="p-ageflag"><input type="checkbox" id="p-ageflag" data-b="ageFlag" ${(isFinite(c.age)?c.age>80:P.ageFlag)?'checked':''} ${isFinite(c.age)?'disabled':''}><span>年齡 &gt;80 歲${isFinite(c.age)?'<em>自動</em>':''}</span></label>`}
+      ${list.map(([k,l,p])=>`<label class="ck neg" for="c-pe-${k}"><input type="checkbox" id="c-pe-${k}" data-g="pe" data-k="${k}" ${P.pe[k]?'checked':''}><span>${l}${!isP&&(k==='hf'||k==='lung')?'<small>與另一項合計 1 分</small>':''}</span>${isP?`<span class="pt">+${p}</span>`:''}</label>`).join('')}</div>
+    ${isP?`<div class="score">PESI <b>${c.pesi!=null?c.pesi:'—'}</b><span>${c.pesi!=null?`第 ${c.pesiCls} 級（年齡 ${c.age}${P.sex==='M'?' + 男性 10':''}）`:'請輸入年齡'}</span></div>`
+         :`<div class="score">sPESI <b>${c.sp}</b><span>${c.sp>=1?'≥1：30 天死亡風險較高':'0：低風險'}</span></div>`}
   </section>
-  <section class="panel"><div class="sec"><h2><span class="no">3</span>RV 功能與生物標記</h2><span>CTPA 或心臟超音波</span></div>
-    <div class="cks">${RV.map(([k,l])=>ck('rv',k,l,'','neg')).join('')}</div>
+  <section class="panel"><div class="sec"><h2><span class="no">3</span>RV 與生物標記</h2><span>CTPA 或心臟超音波</span></div>
+    <div class="cks">${RV.map(([k,l])=>ck('rv',k,l,'','neg')).join('')}
+      <label class="ck" for="p-rvok"><input type="checkbox" id="p-rvok" data-b="rvChecked" ${P.rvChecked?'checked':''}><span>已做影像評估${c.rvDys?'':'，上述皆無'}<small>沒有勾選時，工具視為尚未評估</small></span></label>
+      <label class="ck neg" for="p-cit"><input type="checkbox" id="p-cit" data-b="cit" ${P.cit?'checked':''}><span>右心游離血栓（clot-in-transit）</span></label></div>
     <div class="row">
-      <div class="fld" style="width:180px"><label for="p-trop">Troponin</label><select id="p-trop" data-ps="trop"><option value="" ${P.trop===''?'selected':''}>未測</option><option value="nl" ${P.trop==='nl'?'selected':''}>正常</option><option value="up" ${P.trop==='up'?'selected':''}>上升</option></select></div>
-      <div class="fld" style="width:180px"><label for="p-bnp">BNP／NT-proBNP</label><select id="p-bnp" data-ps="bnp"><option value="" ${P.bnp===''?'selected':''}>未測</option><option value="nl" ${P.bnp==='nl'?'selected':''}>正常</option><option value="up" ${P.bnp==='up'?'selected':''}>上升</option></select></div>
-      <div class="fld" style="width:180px"><label for="p-loc">栓塞位置</label><select id="p-loc" data-ps="loc"><option value="" ${P.loc===''?'selected':''}>未填</option><option value="sub" ${P.loc==='sub'?'selected':''}>次節段</option><option value="seg" ${P.loc==='seg'?'selected':''}>節段</option><option value="prox" ${P.loc==='prox'?'selected':''}>主幹或葉</option></select></div></div>
-    <p class="muted">ESC 2019 以 RV 功能不全＋troponin 區分中高與中低風險；BNP 可輔助判斷預後。</p>
+      <div class="fld" style="width:150px"><label for="p-trop">Troponin</label><select id="p-trop" data-ps="trop"><option value="" ${P.trop===''?'selected':''}>未測</option><option value="nl" ${P.trop==='nl'?'selected':''}>正常</option><option value="up" ${P.trop==='up'?'selected':''}>上升</option></select></div>
+      <div class="fld" style="width:150px"><label for="p-bnp">BNP／NT-proBNP</label><select id="p-bnp" data-ps="bnp"><option value="" ${P.bnp===''?'selected':''}>未測</option><option value="nl" ${P.bnp==='nl'?'selected':''}>正常</option><option value="up" ${P.bnp==='up'?'selected':''}>上升</option></select></div>
+      <div class="fld" style="width:150px"><label for="p-loc">栓塞位置</label><select id="p-loc" data-ps="loc"><option value="" ${P.loc===''?'selected':''}>未填</option><option value="sub" ${P.loc==='sub'?'selected':''}>次節段</option><option value="seg" ${P.loc==='seg'?'selected':''}>節段</option><option value="prox" ${P.loc==='prox'?'selected':''}>主幹或葉</option></select></div></div>
+    <p class="muted">ESC 亞分層著重 troponin；AHA/ACC 的 C2–C3 計入 troponin 或 BNP。</p>
   </section>
   <section class="panel"><div class="sec"><h2><span class="no">4</span>血栓溶解禁忌</h2><span>ESC 2019</span></div>
     <span class="label">絕對禁忌</span><div class="cks two">${CI_ABS.map(([k,l])=>ck('ci',k,l,'','neg')).join('')}</div>
     <span class="label">相對禁忌</span><div class="cks two">${CI_REL.map(([k,l])=>ck('ci',k,l,'','neg')).join('')}</div>
+  </section>
+  <section class="panel"><div class="sec"><h2><span class="no">5</span>特殊族群</h2><span>影響抗凝血選擇</span></div>
+    <div class="cks two">${POP.map(([k,l])=>ck('pop',k,l,'','neg')).join('')}</div>
   </section>`;
 
   const lad=l=>`<div class="ladder">${[0,1,2,3,4].map(i=>`<div class="${i<=l?'on':''}"></div>`).join('')}</div>`;
-  const ep=escPlan(c),ap=ahaPlan(c);
-  const lysisTiming=(c.esc==='high'||['E1','E2','D1','D2','C3'].includes(c.aha));
-  $('#right').innerHTML=`
-  <section class="cat l${c.escL}"><div class="hd"><span class="src">ESC 2019</span><span class="nm">${ESC_NAME[c.esc]}</span></div>${lad(c.escL)}<span class="why">${c.escWhy}</span><ul>${ep.map(x=>`<li>${x}</li>`).join('')}</ul></section>
-  <section class="cat l${c.ahaL}"><div class="hd"><span class="src">AHA/ACC 2026</span><span class="nm">第 ${c.aha}${c.ahaR} 類</span></div>${lad(c.ahaL)}<span class="why">${c.ahaWhy}${c.ahaR?'；呼吸修飾 R：有呼吸衰竭或高氧氣需求':''}</span><ul>${ap.map(x=>`<li>${x}</li>`).join('')}</ul>
-    ${c.respMod&&!P.resp.vent?'<span class="muted">第 C–E 類除非必要，避免深度鎮靜與插管（可能誘發 RV 衰竭與循環崩潰）。</span>':''}</section>
-  ${c.absCI&&lysisTiming?`<div class="warnbox"><b>有血栓溶解絕對禁忌。</b>需要再灌流時，優先考慮導管治療、機械取栓或外科取栓。</div>`:''}
+  const miss=m=>m.length?`<p class="pending">暫定：尚缺 ${m.join('、')}。</p>`:'';
+  const pn=popNotes(P);
+  const doacOff=d.avoidDoac?' off':'';
+  $('#right').innerHTML=(c.assessed?`
+  <section class="cat l${c.escL}"><div class="hd"><span class="src">ESC 2019</span><span class="nm">${escTitle(c)}</span></div>${lad(c.escL)}<span class="why">${c.escWhy}</span>${miss(c.escMissing)}<ul>${escPlan(c).map(x=>`<li>${x}</li>`).join('')}</ul></section>
+  <section class="cat l${c.ahaL}"><div class="hd"><span class="src">AHA/ACC 2026</span><span class="nm">${ahaTitle(c)}</span></div>${lad(c.ahaL)}<span class="why">${c.ahaWhy}${c.ahaR?'；符合該類呼吸修飾 R':''}</span>${miss(c.ahaMissing)}<ul>${ahaPlan(c,P).map(x=>`<li>${x}</li>`).join('')}</ul>${advTable(c)}</section>
+  ${c.flags.map(f=>`<div class="warnbox soft">${f}</div>`).join('')}
+  ${pn.length?`<section class="panel"><div class="sec"><h2>特殊族群提醒</h2></div><ul class="plain">${pn.map(x=>`<li>${x}</li>`).join('')}</ul></section>`:''}`
+  :`<section class="panel empty"><h2>尚未評估</h2><p>請在左側填入血行動力學、年齡與分數項目，這裡才會顯示分類與處置。空白不代表低風險。</p><button type="button" class="btn small" data-go="cases">先看示範病例</button></section>`)+`
   <section class="panel"><div class="sec"><h2>劑量</h2><span>依體重計算，請依院內規範</span></div>
     <div class="row"><div class="fld" style="width:110px"><label for="p-wt">體重 <span class="unit">kg</span></label><input id="p-wt" data-p="wt" inputmode="decimal" value="${esc(P.wt)}"></div>
       <div class="fld" style="width:140px"><label for="p-crcl">CrCl <span class="unit">mL/min</span></label><input id="p-crcl" data-p="crcl" inputmode="decimal" value="${esc(P.crcl)}"></div></div>
     <span class="label">抗凝血</span>
     <div class="dose">
-      <div class="drow"><span><b>UFH</b> 負荷 80 U/kg，之後 18 U/kg/h</span><span class="d">${w>0?Math.round(80*w)+' U → '+Math.round(18*w)+' U/h':'—'}</span><small>依 aPTT 或 anti-Xa 調整。適用於血行動力學不穩定、可能進行再灌流治療、嚴重腎功能不全（CrCl &lt;30）或需快速反轉者。</small></div>
-      <div class="drow"><span><b>Enoxaparin</b> 1 mg/kg q12h</span><span class="d">${w>0?Math.round(w)+' mg q12h':'—'}</span><small>${n(P.crcl)<30?'<b style="color:var(--crit)">CrCl &lt;30：改 1 mg/kg q24h 或改用 UFH</b>':'CrCl &lt;30 mL/min 需調整為 q24h 或改 UFH。'}</small></div>
-      <div class="drow"><span><b>Fondaparinux</b> 每日一次</span><span class="d">${w>0?(w<50?'5 mg':w<=100?'7.5 mg':'10 mg')+' qd':'—'}</span><small>&lt;50 kg：5 mg；50–100 kg：7.5 mg；&gt;100 kg：10 mg。CrCl &lt;30 禁用。</small></div>
-      <div class="drow"><span><b>Apixaban</b></span><span class="d">10 mg bid ×7 天 → 5 mg bid</span><small>可直接開始，不需先給注射抗凝血劑。</small></div>
-      <div class="drow"><span><b>Rivaroxaban</b></span><span class="d">15 mg bid ×21 天 → 20 mg qd</span><small>可直接開始。</small></div>
-      <div class="drow"><span><b>Dabigatran／Edoxaban</b></span><span class="d">先注射抗凝 ≥5 天</span><small>Dabigatran 150 mg bid；edoxaban 60 mg qd（≤60 kg 或 CrCl 15–50 為 30 mg qd）。</small></div>
+      <div class="drow"><span><b>Enoxaparin</b> 1 mg/kg q12h</span><span class="d">${d.enox}</span><small>${d.lowCr?'<b class="crit">CrCl &lt;30：改 1 mg/kg q24h，監測 anti-Xa 合理（2a）；ESC 建議改 UFH</b>':'CrCl &lt;30 改 q24h。BMI &gt;40 降低劑量可能合理（2b）。'}</small></div>
+      <div class="drow"><span><b>UFH</b> 負荷 80 U/kg，之後 18 U/kg/h</span><span class="d">${d.ufh}</span><small>依 aPTT 或 anti-Xa 調整。ESC：血行動力學不穩定、CrCl ≤30 或重度肥胖時使用；AHA/ACC：C1–E1 優先 LMWH。</small></div>
+      <div class="drow"><span><b>Fondaparinux</b> 每日一次</span><span class="d">${d.fonda}</span><small>&lt;50 kg：5 mg；50–100 kg：7.5 mg；&gt;100 kg：10 mg。CrCl &lt;30 禁用。</small></div>
+      <div class="drow${doacOff}"><span><b>Apixaban</b></span><span class="d">10 mg bid ×7 天 → 5 mg bid</span><small>可直接開始，不需先給注射抗凝血劑。${d.avoidDoac?'<b class="crit">懷孕避免。</b>':''}</small></div>
+      <div class="drow${doacOff}"><span><b>Rivaroxaban</b></span><span class="d">15 mg bid ×21 天 → 20 mg qd</span><small>可直接開始。${d.avoidDoac?'<b class="crit">懷孕避免。</b>':''}</small></div>
+      <div class="drow${doacOff}"><span><b>Dabigatran／Edoxaban</b></span><span class="d">先注射抗凝 ≥5 天</span><small>Dabigatran 150 mg bid；edoxaban 60 mg qd（≤60 kg 或 CrCl 15–50 為 30 mg qd）。${d.avoidDoac?'<b class="crit">懷孕避免。</b>':''}</small></div>
     </div>
-    <span class="label">全身性血栓溶解（高風險／第 E 類）</span>
+    <span class="label">全身性血栓溶解（ESC 高風險；AHA/ACC E 類合理、D 與 C3 為 2b）</span>
     <div class="dose">
-      <div class="drow"><span><b>Alteplase</b> 標準</span><span class="d">100 mg，2 小時</span><small>溶栓期間可暫停 UFH，結束後 aPTT &lt;2 倍時恢復。</small></div>
-      <div class="drow"><span><b>Alteplase</b> 加速（例如心跳停止）</span><span class="d">${w>0?Math.min(50,r1(0.6*w))+' mg，15 分鐘':'0.6 mg/kg，15 分鐘'}</span><small>0.6 mg/kg，上限 50 mg。</small></div>
+      <div class="drow"><span><b>Alteplase</b> 標準</span><span class="d">100 mg，2 小時</span><small>固定劑量。溶栓後初始注射抗凝血：LMWH 優於 UFH（AHA/ACC 1 B-NR）。</small></div>
+      <div class="drow"><span><b>Alteplase</b> 加速（例如心跳停止）</span><span class="d">${d.accel}</span><small>0.6 mg/kg，上限 50 mg。ESC 註明非正式核准。</small></div>
+      <div class="drow"><span><b>Alteplase</b> 低劑量</span><span class="d">25–50 mg</span><small>AHA/ACC：可考慮以降低出血（2b C-LD），高品質證據不足。</small></div>
     </div>
   </section>
-  <section class="panel"><div class="row" style="align-items:center"><button type="button" class="btn small" data-act="copy">複製摘要</button><span class="toast" id="toast" aria-live="polite"></span><span style="flex:1"></span><button type="button" class="btn small danger" data-act="clearAsk">清除此床</button><span class="confirm" id="clr" hidden>確定清除床 ${esc(S.bed)}？<button type="button" class="btn small danger" data-act="clearYes">清除</button><button type="button" class="btn small" data-act="clearNo">取消</button></span></div>
+  <section class="panel"><div class="row" style="align-items:center"><button type="button" class="btn small" id="act-copy" data-act="copy">複製摘要</button><span class="toast" id="toast" aria-live="polite"></span><span style="flex:1"></span>${demo?'':`<button type="button" class="btn small danger" id="act-clear" data-act="clearAsk">清除此床</button><span class="confirm" id="clr" hidden>確定清除床 ${esc(S.bed)}？<button type="button" class="btn small danger" data-act="clearYes">清除</button><button type="button" class="btn small" data-act="clearNo">取消</button></span>`}</div>
     <textarea class="buf" id="buf" hidden readonly aria-label="摘要"></textarea>
-    <details><summary style="cursor:pointer;font-weight:700">床號設定</summary><div class="fld" style="margin-top:8px"><label for="set-beds">床號（逗號或空白分隔）</label><input id="set-beds" value="${esc(S.beds.join(', '))}"></div><button type="button" class="btn small primary" style="margin-top:8px" data-act="saveBeds">儲存</button></details></section>`;
-  const el=fk&&$(fk);if(el){el.focus({preventScroll:true});if(sel&&sel[0]!=null)try{el.setSelectionRange(sel[0],sel[1]);}catch(e){}}
+    <details><summary>床號設定</summary><div class="fld" style="margin-top:8px"><label for="set-beds">床號（逗號或空白分隔）</label><input id="set-beds" value="${esc(S.beds.join(', '))}"></div><button type="button" class="btn small primary" style="margin-top:8px" data-act="saveBeds">儲存</button></details></section>`;
 }
 function summary(){
   const P=P_(),c=calc(P),strip=s=>s.replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
-  const L=[`【床 ${S.bed}】急性肺栓塞風險分層`,
+  if(!c.assessed)return `【床 ${S.bed}】尚未評估`;
+  const L=[demo?`【示範病例，非真實病人】${demo.title}`:`【床 ${S.bed}】急性肺栓塞風險分層`,
     `血行動力學：${HEMO.find(h=>h[0]===P.hemo)[1]}${c.hypoperf?'，有低灌流（'+HYPO.filter(([k])=>P.hypo[k]).map(x=>x[1]).join('、')+'）':''}`,
-    P.scoreMode==='spesi'?`sPESI ${c.sp}`:`PESI ${isFinite(c.age)?c.pesi+'（第 '+c.pesiCls+' 級）':'—'}`,
-    `RV 功能不全：${c.rvDys?'有（'+RV.filter(([k])=>P.rv[k]).map(x=>x[1].split('（')[0]).join('、')+'）':'無'}；troponin ${P.trop==='up'?'上升':P.trop==='nl'?'正常':'未測'}`,
-    `ESC 2019：${ESC_NAME[c.esc]}（${c.escWhy}）`,
+    P.scoreMode==='spesi'?`sPESI ${c.sp}`:`PESI ${c.pesi!=null?c.pesi+'（第 '+c.pesiCls+' 級）':'—'}`,
+    `RV 功能不全：${c.rvDys?'有（'+RV.filter(([k])=>P.rv[k]).map(x=>x[1].split('（')[0]).join('、')+'）':c.rvKnown?'無':'未評估'}；troponin ${P.trop==='up'?'上升':P.trop==='nl'?'正常':'未測'}；BNP ${P.bnp==='up'?'上升':P.bnp==='nl'?'正常':'未測'}`,
+    `ESC 2019：${escTitle(c)}（${c.escWhy}）`,
     ...escPlan(c).map(x=>'  - '+strip(x)),
-    `AHA/ACC 2026：第 ${c.aha}${c.ahaR} 類（${c.ahaWhy}）`,
-    ...ahaPlan(c).map(x=>'  - '+strip(x))];
+    `AHA/ACC 2026：${ahaTitle(c)}（${strip(c.ahaWhy)}）`,
+    ...ahaPlan(c,P).map(x=>'  - '+strip(x))];
   if(c.absCI||c.relCI)L.push('溶栓禁忌：'+[...CI_ABS,...CI_REL].filter(([k])=>P.ci[k]).map(x=>x[1]).join('、'));
+  popNotes(P).forEach(x=>L.push('提醒：'+strip(x)));
+  c.flags.forEach(x=>L.push('注意：'+x));
   return L.join('\n');
 }
 
+/* ---------- 教學分頁 ---------- */
+function renderCases(){
+  $('#cases').innerHTML=`<div class="intro"><h2>示範病例 ${CASES.length} 例</h2><p class="muted">皆為虛構病例。先看資料自己判斷，再展開解析；「帶入工具」不會寫入床號。</p></div><div class="cgrid">`+CASES.map((k,i)=>{
+    const c=calc(k.P);
+    return `<article class="panel case" id="${k.id}"><div class="ctop"><span class="cno">${i+1}</span><div><h3>${esc(k.title)}</h3><span class="ctag">${esc(k.tag)}</span></div></div>
+      <p>${esc(k.story)}</p><ul class="plain">${k.data.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+      <p class="cq"><b>問題：</b>${esc(k.q)}</p>
+      <details><summary>看解析</summary><div class="cans"><div class="res-pair"><span><small>ESC 2019</small><b>${ESC_NAME[c.esc]}</b></span><span><small>AHA/ACC 2026</small><b>第 ${c.ahaFull} 類</b></span></div><ol>${k.why.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="pit"><b>易錯點：</b>${esc(k.pit)}</p></div></details>
+      <button type="button" class="btn small primary" id="load-${k.id}" data-case="${i}">帶入工具</button></article>`;}).join('')+'</div>';
+}
+function renderQuiz(){
+  const done=QUIZ.filter((_,i)=>quiz[i]!=null).length,right=QUIZ.filter((q,i)=>quiz[i]===q.a).length;
+  const sect=lv=>`<h3 class="qsec">${lv}</h3>`;
+  $('#quiz').innerHTML=`<div class="intro row between"><div><h2>考題 ${QUIZ.length} 題</h2><p class="muted">基礎 10 題、高階 10 題。依 AHA/ACC 2026、ESC 2019 與 PEITHO、HI-PEITHO。答案不會儲存。</p></div><div class="qscore" aria-live="polite"><b class="num">${right}/${done}</b><small>已答 ${done} 題</small><button type="button" class="btn small" id="q-reset" data-act="qReset">重新作答</button></div></div>`+
+  QUIZ.map((q,i)=>{const pick=quiz[i],ans=pick!=null;
+    return (i===0?sect('基礎'):i===10?sect('高階'):'')+`<article class="panel qq"><p class="qt"><span class="qn">${i+1}</span>${esc(q.q)}</p><div class="qo">${q.o.map((o,j)=>{
+      const cls=!ans?'':j===q.a?'right':j===pick?'wrong':'dim';
+      return `<button type="button" id="q${i}-${j}" class="qopt ${cls}" data-q="${i}" data-o="${j}" ${ans?'disabled':''}><b>${'ABCD'[j]}</b><span>${esc(o)}</span></button>`;}).join('')}</div>
+      ${ans?`<p class="qwhy"><b>${pick===q.a?'答對。':'正確答案 '+'ABCD'[q.a]+'。'}</b>${esc(q.why)}</p>`:''}</article>`;}).join('');
+}
+function renderMap(){
+  const node=(x,d)=>x.c?`<details class="mm d${d}" ${d===1?'':'open'}><summary>${esc(x.t)}</summary><div class="mmc">${x.c.map(y=>node(y,d+1)).join('')}</div></details>`:`<div class="mml">${esc(x.t)}</div>`;
+  $('#map').innerHTML=`<div class="intro row between"><div><h2>心智圖</h2><p class="muted">點分支可展開。COR 依 AHA/ACC 2026，另標明 ESC。</p></div><div class="row"><button type="button" class="btn small" id="mm-open" data-act="mmOpen">全部展開</button><button type="button" class="btn small" id="mm-close" data-act="mmClose">全部收合</button></div></div><div class="mmroot"><div class="mmhead">${esc(MAP.t)}</div>${MAP.c.map(x=>node(x,1)).join('')}</div>`;
+}
+
+/* ---------- 版面 ---------- */
+function render(){
+  const a=document.activeElement;let fk=null,sel=null;
+  if(a&&a.id){fk='#'+CSS.escape(a.id);try{sel=[a.selectionStart,a.selectionEnd];}catch(e){}}
+  const t=tabNow();
+  $('#tabs').innerHTML=TABS.map(([k,l])=>`<a id="tab-${k}" href="#${k}" role="tab" aria-selected="${k===t}">${l}</a>`).join('');
+  TABS.forEach(([k])=>{$('#view-'+k).hidden=k!==t;});
+  $('#res').hidden=t!=='tool';
+  if(t==='tool')renderTool();
+  else if(t==='cases'){if(!$('#cases').firstChild)renderCases();}
+  else if(t==='quiz')renderQuiz();
+  else if(t==='map'){if(!$('#map').firstChild)renderMap();}
+  const el=fk&&$(fk);if(el){el.focus({preventScroll:true});if(sel&&sel[0]!=null)try{el.setSelectionRange(sel[0],sel[1]);}catch(e){}}
+}
+function persist(){if(!demo)save();}
+
 /* ---------- 事件 ---------- */
 document.addEventListener('click',e=>{
-  const bb=e.target.closest('[data-bed]');if(bb){S.bed=bb.dataset.bed;save();render();return;}
-  const m=e.target.closest('[data-mode]');if(m){P_().scoreMode=m.dataset.mode;save();render();return;}
+  const bb=e.target.closest('[data-bed]');if(bb){demo=null;S.bed=bb.dataset.bed;save();render();return;}
+  const m=e.target.closest('[data-mode]');if(m){P_().scoreMode=m.dataset.mode;persist();render();return;}
+  const go=e.target.closest('[data-go]');if(go){location.hash='#'+go.dataset.go;return;}
+  const cs=e.target.closest('[data-case]');if(cs){const k=CASES[+cs.dataset.case];demo={title:k.title,P:normalizeP(JSON.parse(JSON.stringify(k.P)))};if(tabNow()==='tool')render();else location.hash='#tool';window.scrollTo(0,0);return;}
+  const qo=e.target.closest('[data-q]');if(qo){const i=+qo.dataset.q;if(quiz[i]==null){quiz[i]=+qo.dataset.o;const y=window.scrollY;renderQuiz();window.scrollTo(0,y);const w=$(`#q${i}-${quiz[i]}`);if(w)w.closest('.qq').querySelector('.qwhy').setAttribute('tabindex','-1');}return;}
   const a=e.target.closest('[data-act]');if(!a)return;
   switch(a.dataset.act){
     case 'copy':{const text=summary(),toast=$('#toast'),buf=$('#buf');
@@ -369,6 +728,10 @@ document.addEventListener('click',e=>{
     case 'clearAsk':$('#clr').hidden=false;a.hidden=true;return;
     case 'clearNo':$('#clr').hidden=true;$('[data-act="clearAsk"]').hidden=false;return;
     case 'clearYes':S.data[S.bed]=newP();break;
+    case 'exitDemo':demo=null;render();return;
+    case 'qReset':Object.keys(quiz).forEach(k=>delete quiz[k]);renderQuiz();window.scrollTo(0,0);return;
+    case 'mmOpen':$$('#map details').forEach(d=>d.open=true);return;
+    case 'mmClose':$$('#map details').forEach(d=>d.open=false);return;
     case 'saveBeds':{const b=$('#set-beds').value.split(/[,，\s]+/).map(v=>v.trim()).filter(Boolean);if(b.length){S.beds=[...new Set(b)];if(!S.beds.includes(S.bed))S.bed=S.beds[0];}break;}
     default:return;
   }
@@ -379,11 +742,12 @@ document.addEventListener('change',e=>{
   if(t.name==='hemo')P.hemo=t.value;
   else if(t.matches('[data-g]'))P[t.dataset.g][t.dataset.k]=t.checked;
   else if(t.matches('[data-ps]'))P[t.dataset.ps]=t.value;
-  else if(t.matches('[data-asym]'))P.asym=t.checked;
+  else if(t.matches('[data-b]'))P[t.dataset.b]=t.checked;
   else return;
-  save();render();
+  persist();render();
 });
-document.addEventListener('input',e=>{const t=e.target;if(t.matches('[data-p]')){P_()[t.dataset.p]=t.value;save();render();}});
+document.addEventListener('input',e=>{const t=e.target;if(t.matches('[data-p]')){P_()[t.dataset.p]=t.value;persist();render();}});
+window.addEventListener('hashchange',()=>{render();window.scrollTo(0,0);});
 render();
 })();
 </script>

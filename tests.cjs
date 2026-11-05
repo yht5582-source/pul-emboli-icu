@@ -1,0 +1,151 @@
+// node tests.cjs：引擎、病例、考題與文獻數值檢查
+const fs=require('fs'),vm=require('vm');
+const html=fs.readFileSync(__dirname+'/index.html','utf8');
+const block=(a,b)=>{const i=html.indexOf(a),j=html.indexOf(b);if(i<0||j<0)throw new Error('missing '+a);return html.slice(i,j);};
+const ctx={};vm.createContext(ctx);
+vm.runInContext(block('/*ENGINE-START*/','/*ENGINE-END*/')+block('/*TEACH-START*/','/*TEACH-END*/')+';this.PEE=PEE;this.CASES=CASES;this.QUIZ=QUIZ;this.MAP=MAP;',ctx);
+const {PEE,CASES,QUIZ,MAP}=ctx;
+let pass=0,fail=0;
+const ok=(c,m)=>{if(c)pass++;else{fail++;console.log('FAIL',m);}};
+const eq=(a,b,m)=>ok(a===b,`${m}: got ${JSON.stringify(a)} want ${JSON.stringify(b)}`);
+const C=p=>PEE.calc(p);
+
+// 空白狀態不可顯示低風險結論
+eq(C({}).assessed,false,'blank not assessed');
+eq(C({age:'50'}).assessed,true,'age assessed');
+ok(C({age:'50'}).escMissing.includes('RV 影像'),'low needs RV');
+eq(C({age:'50',rvChecked:true}).escMissing.length,0,'low with RV done');
+ok(C({scoreMode:'pesi',rvChecked:true,hypo:{}, trop:'nl'}).escMissing.length>0,'PESI blank age provisional');
+
+// ESC
+for(const h of ['persist','refractory','arrest'])eq(C({hemo:h}).esc,'high','ESC '+h);
+eq(C({hemo:'transient',hypo:{lac:true}}).esc,'high','transient+hypoperf');
+eq(C({hemo:'stable',hypo:{lac:true},age:'50',rvChecked:true}).esc,'low','ESC no normotensive shock');
+ok(C({hemo:'stable',hypo:{lac:true},age:'50',rvChecked:true}).flags.length>0,'normotensive shock flagged');
+eq(C({age:'50',pe:{hr:true},rv:{ratio:true},trop:'up'}).esc,'imh','imh');
+eq(C({age:'50',pe:{hr:true},rv:{ratio:true},trop:'nl'}).esc,'iml','iml rv only');
+eq(C({age:'50',pe:{hr:true},rvChecked:true,trop:'up'}).esc,'iml','iml trop only');
+eq(C({age:'50',rv:{ratio:true},trop:'up'}).esc,'iml','ESC text: low score + both = iml');
+eq(C({age:'50',pe:{hr:true},rv:{ratio:true},trop:'nl',bnp:'up'}).esc,'iml','BNP not troponin in ESC');
+
+// AHA Figure 2 分類
+eq(C({asym:true,age:'66',pe:{ca:true}}).aha,'A','A despite cancer');
+eq(C({age:'40',loc:'sub'}).aha,'B1','B1');eq(C({age:'40',loc:'seg'}).aha,'B2','B2 seg');eq(C({age:'40',loc:'prox'}).aha,'B2','B2 prox');eq(C({age:'40'}).aha,'B','B');
+eq(C({age:'85',trop:'nl',bnp:'nl',rvChecked:true}).aha,'C1','C1 age');
+eq(C({age:'50',pe:{lung:true},bnp:'up',trop:'nl',rvChecked:true}).aha,'C2','C2 by BNP');
+eq(C({age:'50',pe:{lung:true},rv:{tapse:true}}).aha,'C2','C2 by RV');
+eq(C({age:'50',pe:{lung:true},rv:{tapse:true},bnp:'up'}).aha,'C3','C3 by BNP+RV');
+eq(C({age:'50',pe:{lung:true},rv:{tapse:true},trop:'up'}).aha,'C3','C3 by trop+RV');
+eq(C({hemo:'transient',age:'50'}).aha,'D1','D1');
+eq(C({hemo:'transient',hypo:{lac:true}}).aha,'D2','D2 transient');
+eq(C({hypo:{aki:true}}).aha,'D2','D2 normotensive');
+eq(C({hemo:'persist'}).aha,'E1','E1');eq(C({hemo:'refractory'}).aha,'E2','E2');eq(C({hemo:'arrest'}).aha,'E2','E2 arrest');
+
+// R 修飾：各類門檻不同，A、B 沒有 R
+eq(C({age:'40',resp:{d:true}}).ahaR,'','B no R even with oxygen tick');
+eq(C({asym:true,resp:{c:true}}).ahaR,'','A no R');
+eq(C({age:'85',resp:{c:true}}).ahaR,'-R','C any O2');
+eq(C({age:'85',pe:{spo2:true}}).ahaR,'-R','C SpO2 from score');
+eq(C({age:'85',pe:{rr:true}}).ahaR,'-R','C RR from score');
+eq(C({age:'85'}).ahaR,'','C without');
+eq(C({hemo:'transient',resp:{c:true}}).ahaR,'','D low oxygen no R');
+eq(C({hemo:'transient',resp:{d:true}}).ahaR,'-R','D >6L');
+eq(C({hemo:'persist',resp:{d:true}}).ahaR,'','E >6L no R');
+eq(C({hemo:'persist',resp:{vent:true}}).ahaR,'-R','E vent');
+
+// 分數：PESI 與 sPESI 共用輸入，切換不改變臨床事實
+eq(C({age:'81'}).sp,1,'sPESI age');eq(C({age:'80'}).sp,0,'sPESI age 80');
+eq(C({age:'50',pe:{hf:true,lung:true}}).sp,1,'hf+lung one point');
+eq(C({age:'50',sex:'F',pe:{ca:true,hf:true,lung:true,hr:true,sbp:true,rr:true,temp:true,ams:true,spo2:true},scoreMode:'pesi'}).pesi,50+30+10+10+20+30+20+20+60+20,'PESI sum');
+eq(C({age:'60',sex:'M',scoreMode:'pesi'}).pesi,70,'PESI male');
+const cls=[[65,'I'],[66,'II'],[85,'II'],[86,'III'],[105,'III'],[106,'IV'],[125,'IV'],[126,'V']];
+for(const [a,k] of cls)eq(C({age:String(a-30),sex:'F',pe:{ca:true},scoreMode:'pesi'}).pesiCls,k,'PESI class '+a);
+eq(C({age:'85',sex:'F',scoreMode:'pesi',rvChecked:true}).esc,'low','PESI 85 low');
+eq(C({age:'86',sex:'F',scoreMode:'pesi',rvChecked:true}).esc,'iml','PESI 86 not low');
+eq(C({sex:'F',pe:{ams:true,ca:true},scoreMode:'pesi',rvChecked:true}).sevHigh,true,'PESI items alone >85');
+eq(C({age:'12'}).ageBad,true,'child rejected');eq(C({age:'150'}).ageBad,true,'150 rejected');
+eq(C({age:'-5'}).ageBad,true,'negative rejected');
+
+// 舊資料移轉
+const old=PEE.normalizeP({hemo:'stable',hypo:{},resp:{o2:true},sp:{ca:true,cp:true,age:true,hr:true},pe:{},rv:{},ci:{}});
+eq(old.pe.ca,true,'mig ca');eq(old.pe.hf,true,'mig cp');eq(old.ageFlag,true,'mig age');eq(old.resp.d,true,'mig o2');eq(old.sp,undefined,'mig drops sp');
+eq(PEE.normalizeP(null).hemo,'stable','null');eq(PEE.normalizeP({hemo:'x',hypo:3}).hemo,'stable','bad hemo');
+eq(PEE.calc({hemo:'x',hypo:3,pe:null}).esc,'low','corrupt no crash');
+
+// Table 7
+const T={A:['3: Harm A','3: NB C-EO','3: NB C-EO','3: NB C-EO'],C1:['3: Harm A','3: NB C-EO','3: NB C-EO','3: NB C-EO'],C2:['3: Harm B-R','2b C-LD','2b C-LD','3: NB C-EO'],C3:['2b C-LD','2b C-LD','2b C-LD','3: NB C-EO'],D1:['2b C-LD','2b B-NR','2b B-NR','2b C-LD'],D2:['2b C-LD','2b B-NR','2b B-NR','2b C-LD'],E1:['2a C-LD','2a C-LD','2a B-NR','2a B-NR'],E2:['2a C-LD','N/A','N/A','3: NB B-NR']};
+for(const k in T)T[k].forEach((v,i)=>eq(PEE.ADV[k][i],v,`Table7 ${k}.${i}`));
+for(const k of ['A','B','B1','B2','C1','C2','C3','D1','D2','E1','E2'])ok(PEE.ADV[k],'ADV '+k);
+
+// 建議內容
+const txt=(p)=>{const c=C(p);return PEE.ahaPlan(c,p).join('|');};
+ok(!/UFH（預期/.test(txt({hemo:'transient'})),'D no UFH preference');
+ok(/LMWH 優於 UFH/.test(txt({hemo:'transient'})),'D LMWH');
+ok(/LMWH 優於 UFH/.test(txt({hemo:'persist'})),'E1 LMWH');
+ok(/LMWH 或 UFH/.test(txt({hemo:'arrest'})),'E2 either');
+ok(/VA-ECMO/.test(txt({hemo:'arrest'})),'E2 ECMO');
+ok(/升壓劑/.test(txt({hypo:{lac:true}})),'D2 pressor');
+ok(!/升壓劑/.test(txt({hemo:'transient'})),'D1 no pressor rec');
+ok(/右心游離血栓/.test(txt({hemo:'persist',cit:true})),'CIT E1');
+ok(!/右心游離血栓/.test(txt({age:'85',cit:true})),'CIT not C1');
+ok(/HI-PEITHO/.test(txt({age:'85',rv:{ratio:true},trop:'up'})),'C3 HI-PEITHO');
+ok(/開始 DOAC/.test(txt({asym:true})),'A DOAC');
+ok(/絕對禁忌/.test(txt({hemo:'persist',ci:{bleed:true}})),'E1 abs CI');
+ok(PEE.escPlan(C({hemo:'persist',ci:{bleed:true}})).join('').includes('絕對禁忌'),'ESC abs CI');
+ok(/懷孕/.test(PEE.popNotes({pop:{preg:true}}).join()),'preg note');
+eq(C({pop:{preg:true}}).relCI,true,'preg counts relative CI');
+ok(/CrCl <30/.test(PEE.popNotes({crcl:'20'}).join()),'renal note');
+eq(PEE.popNotes({}).length,0,'no pop notes');
+eq(PEE.popNotes({crcl:''}).length,0,'blank crcl');
+
+// 劑量
+const D=p=>PEE.doses(p);
+eq(D({wt:'80'}).ufh,'6400 U → 1440 U/h','UFH');eq(D({wt:'80'}).enox,'80 mg q12h','enox');
+eq(D({wt:'68',crcl:'24'}).enox,'68 mg q24h','enox renal');eq(D({wt:'68',crcl:'30'}).enox,'68 mg q12h','enox 30');
+eq(D({wt:'49'}).fonda,'5 mg qd','fonda 49');eq(D({wt:'50'}).fonda,'7.5 mg qd','fonda 50');eq(D({wt:'100'}).fonda,'7.5 mg qd','fonda 100');eq(D({wt:'101'}).fonda,'10 mg qd','fonda 101');
+eq(D({wt:'70',crcl:'20'}).fonda,'CrCl <30 禁用','fonda renal');
+eq(D({wt:'60'}).accel,'36 mg，15 分鐘','accel');eq(D({wt:'100'}).accel,'50 mg，15 分鐘','accel cap');
+eq(D({}).ufh,'—','no weight');eq(D({wt:'-3'}).ufh,'—','neg weight');
+eq(D({pop:{preg:true}}).avoidDoac,true,'preg avoid DOAC');
+
+// 病例
+eq(CASES.length,8,'8 cases');
+const seen=new Set();
+for(const k of CASES){
+  ok(!seen.has(k.id),'unique '+k.id);seen.add(k.id);
+  const c=C(k.P);
+  eq(c.esc,k.expect.esc,k.id+' esc');eq(c.ahaFull,k.expect.aha,k.id+' aha');
+  eq(c.assessed,true,k.id+' assessed');
+  eq(c.escMissing.length,0,k.id+' esc complete');eq(c.ahaMissing.length,0,k.id+' aha complete');
+  ok(k.why.length>=4&&k.pit&&k.q&&k.tag.startsWith(k.expect.aha.split('-')[0]==='B2'?'B2':k.expect.aha),k.id+' fields/tag');
+  ok(k.why.join().includes(k.expect.aha.replace('-R',''))||k.expect.esc,k.id+' why');
+}
+// 病例敘述與輸入一致
+const c5=CASES[4].P;ok(c5.rv.ratio&&c5.trop==='up','HI-PEITHO case criteria');
+const c6=C(CASES[5].P);eq(c6.absCI,true,'c6 surgery CI');
+eq(PEE.doses(CASES[7].P).accel,'36 mg，15 分鐘','c8 accel matches text');
+eq(PEE.doses(CASES[3].P).enox,'68 mg q24h','c4 enox');
+eq(PEE.ahaPlan(C(CASES[1].P),CASES[1].P).join().includes('DOAC'),true,'c2 DOAC');
+
+// 考題
+eq(QUIZ.length,20,'20 q');
+eq(QUIZ.filter(q=>q.lv==='基礎').length,10,'10 basic');eq(QUIZ.filter(q=>q.lv==='高階').length,10,'10 adv');
+ok(QUIZ.slice(0,10).every(q=>q.lv==='基礎'),'basic first');
+const cnt=[0,0,0,0];let longest=0;
+QUIZ.forEach((q,i)=>{
+  eq(q.o.length,4,'q'+i+' 4 opts');eq(new Set(q.o).size,4,'q'+i+' unique');ok(q.a>=0&&q.a<4&&q.why,'q'+i);
+  cnt[q.a]++;
+  const L=q.o.map(x=>x.length),m=Math.max(...L);if(L[q.a]===m&&L.filter(x=>x===m).length===1)longest++;
+  if(q.eng&&q.eng.P){const c=C(q.eng.P);if(q.eng.aha)eq(c.aha,q.eng.aha,'q'+i+' engine');if(q.eng.esc)eq(c.esc,q.eng.esc,'q'+i+' engine');}
+  if(q.eng&&q.eng.adv)eq(PEE.ADV[q.eng.adv.cat][q.eng.adv.i],q.eng.adv.val,'q'+i+' table7');
+});
+eq(cnt.join(),'5,5,5,5','A-D balance');
+ok(longest<=7,'correct not usually longest: '+longest);
+
+// 心智圖
+const leaf=x=>x.c?x.c.flatMap(leaf):[x.t];
+ok(MAP.c.length>=8,'map branches');ok(leaf(MAP).length>=35,'map leaves');
+ok(/3-Harm/.test(leaf(MAP).join()),'map Table 7');
+
+console.log(`${pass} passed, ${fail} failed`);
+process.exit(fail?1:0);
