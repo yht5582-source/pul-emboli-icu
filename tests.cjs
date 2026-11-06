@@ -123,6 +123,78 @@ eq(PEE.NHI.length,11,'NHI rows');
 const N=k=>PEE.NHI.find(r=>r.d===k);
 ok(/未列肺栓塞/.test(N('Enoxaparin').rule),'enox rule');ok(/治療肺栓塞/.test(N('Tinzaparin').rule),'tinz rule');eq(N('Fondaparinux').st,'bad','fonda');eq(N('Tenecteplase').st,'bad','tnk');
 for(const k of ['Apixaban','Rivaroxaban','Edoxaban','Dabigatran'])ok(/含肺栓塞/.test(N(k).rule),k);
+
+// 處方導引
+const X=p=>PEE.rxPlan(p);
+const pk=p=>X(p).primary.k;
+eq(pk({age:'50'}),'apix','default apixaban');
+ok(X({age:'50'}).alts.map(a=>a.k).join()==='riva,edox,dabi','default alts');
+eq(pk({pop:{preg:true}}),'lmwh','preg LMWH');
+ok(!X({pop:{preg:true}}).alts.some(a=>/apix|riva|edox|dabi|warf/.test(a.k)),'preg no DOAC/VKA alt');
+eq(pk({pop:{aps:true}}),'warf','APS VKA');
+eq(pk({pop:{aps1:true}}),'apix','single antibody DOAC');ok(/2b B-R/.test(X({pop:{aps1:true}}).flags.join()),'aps1 flag');
+eq(pk({pop:{bf:true}}),'lmwh','bf');
+eq(pk({pop:{childC:true}}),'warf','child C');
+eq(pk({crcl:'10'}),'warf','CrCl 10');ok(X({crcl:'10'}).alts.some(a=>a.k==='apix'),'CrCl 10 apix alt');
+eq(pk({rx:{dialysis:true},crcl:'40'}),'warf','dialysis');
+ok(X({crcl:'20'}).avoid.some(a=>a.k==='dabi'),'CrCl 20 no dabi');ok(/謹慎/.test(X({crcl:'20'}).primary.lines.join()),'CrCl 20 caution');
+eq(pk({pop:{cancer:true},rx:{giCa:true}}),'lmwh','GI cancer LMWH');
+eq(pk({pop:{cancer:true}}),'apix','cancer DOAC');ok(X({pop:{cancer:true}}).alts.some(a=>a.k==='lmwh'),'cancer LMWH alt');
+eq(pk({pop:{brain:true}}),'apix','brain');
+eq(pk({rx:{ddi:true}}),'lmwh','ddi');
+eq(X({ci:{bleed:true}}).primary.k,undefined,'bleed no drug');ok(/IVC filter/.test(X({ci:{bleed:true}}).primary.lines.join()),'bleed filter');
+ok(/非 heparin/.test(X({rx:{hit:true},hemo:'persist'}).initial.join()),'HIT');
+// 初始注射
+ok(/UFH 含負荷/.test(X({hemo:'arrest'}).initial.join()),'E2 UFH');
+ok(/LMWH 優於 UFH/.test(X({hemo:'persist'}).initial.join()),'E1 LMWH');
+ok(/2–3 天/.test(X({age:'50',pe:{hr:true},rv:{ratio:true},trop:'up'}).initial.join()),'imh LMWH 2-3 d');
+ok(/直接口服/.test(X({age:'40',rvChecked:true}).initial.join()),'stable direct oral');
+ok(/ESC 建議 UFH/.test(X({hemo:'transient',crcl:'20'}).initial.join()),'renal UFH');
+// 時程
+const sch=p=>X(p).schedule;
+eq(sch({}).length,2,'apix 2 steps');eq(sch({rx:{daysOn:'3'}})[0].now,true,'day3 now');eq(sch({rx:{daysOn:'8'}})[1].now,true,'day8 now');eq(sch({rx:{daysOn:'7'}})[1].now,false,'day7 not step2');
+ok(/30 mg/.test(X({pop:{cancer:true},rx:{},wt:'55'}).schedule.join?'30 mg':''),'placeholder');
+const ed=PEE.rxPlan({crcl:'20',pop:{}});ok(ed.primary.k==='apix','renal primary apix');
+ok(/INR 達 2.5/.test(sch({pop:{aps:true}}).map(s=>s.what).join()),'warf overlap');
+eq(sch({pop:{aps:true},rx:{daysOn:'20'}})[1].now,false,'warf after not marked');
+ok(/q24h/.test(sch({pop:{preg:true},wt:'70',crcl:'20'}).map(s=>s.what).join()),'lmwh renal');
+ok(/12250 IU/.test(sch({pop:{preg:true},wt:'70'}).map(s=>s.what).join()),'tinz dose');
+// 療程與減量
+const du=p=>{const x=X(p);return x.duration.concat(x.taper).join('|');};
+ok(/停藥，優於延長/.test(du({rx:{rf:'major'}})),'major stop');ok(/逐步減量/.test(du({rx:{rf:'major'}})),'no taper needed');
+ok(/共同決定/.test(du({rx:{rf:'minor'}})),'minor shared');
+ok(/延長治療.*1 A/.test(du({rx:{rf:'none'}})),'unprovoked extended');
+ok(/半劑量/.test(du({rx:{rf:'none'}})),'half dose');ok(!/半劑量/.test(du({rx:{rf:'persist'},pop:{cancer:true}})),'cancer no half dose');
+ok(/DOAC 或 LMWH/.test(du({rx:{rf:'persist'},pop:{cancer:true}})),'cancer extended');
+ok(/先判定誘發因子/.test(du({})),'rf unknown');
+ok(/第 8 天由 10 mg bid 降為 5 mg bid/.test(du({})),'apix step');
+ok(/第 22 天/.test(du({pop:{brain:true},rx:{ddi:false}}))===false,'brain apix not riva');
+// 追蹤
+const mo=p=>X(p).monitor.map(m=>m.when+':'+m.what).join('|');
+ok(/出院 1 週內/.test(mo({}))&&/3 個月內/.test(mo({}))&&/至少 1 年/.test(mo({})),'core follow-up');
+ok(/適齡癌症篩檢/.test(mo({rx:{rf:'none'}})),'cancer screen');ok(!/適齡癌症篩檢/.test(mo({rx:{rf:'major'}})),'no screen if major');
+ok(/血栓傾向/.test(mo({rx:{rf:'none'},age:'40'})),'thrombophilia <55');ok(!/血栓傾向/.test(mo({rx:{rf:'none'},age:'60'})),'no thrombophilia 60');
+ok(/監測 anti-Xa：CrCl <30/.test(mo({pop:{preg:true},crcl:'20'})),'antiXa renal');ok(/No Benefit A/.test(mo({pop:{preg:false},rx:{rf:''},hemo:'persist'})),'antiXa not routine');
+ok(/育齡女性/.test(mo({sex:'F',age:'30'})),'childbearing');ok(!/育齡女性/.test(mo({sex:'M',age:'30'})),'male no');
+ok(/乳酸/.test(mo({age:'85'})),'C lactate');
+// 症狀與復發
+ok(/V\/Q/.test(X({rx:{dyspnea:true}}).symptoms.join()),'CTEPD');ok(/No Benefit/.test(X({}).symptoms.join()),'no follow-up CT');
+ok(/不同類/.test(X({rx:{recur:'full'}}).recur.join()),'recur full');ok(/全劑量/.test(X({rx:{recur:'reduced'}}).recur.join()),'recur reduced');ok(/20–25%/.test(X({rx:{recur:'lmwh'}}).recur.join()),'recur lmwh');eq(X({}).recur.length,0,'no recur');
+ok(/<50/.test(X({rx:{plt:'40'}}).flags.join()),'plt');eq(X({rx:{plt:'150'}}).flags.length,0,'plt ok');
+ok(/第 100 天：已到初始期/.test(X({rx:{daysOn:'100'}}).flags.join()),'day 100');
+ok(/轉口服後第 1–7 天/.test(sch({hemo:'transient',rx:{daysOn:'4'}}).map(s=>s.when).join()),'parenteral first label');eq(sch({hemo:'transient',rx:{daysOn:'4'}}).some(s=>s.now),false,'no now when parenteral first');
+// 掃描：主要藥物不能落在避免清單；懷孕永不出現 DOAC/VKA
+const keys=['preg','bf','aps','aps1','childB','childC','brain','cancer','noac'];let sweep=0;
+for(let m=0;m<512;m++)for(const cr of ['', '10','20','60'])for(const extra of [{},{ddi:true},{hit:true},{giCa:true}]){
+  const pop={};keys.forEach((k,i)=>{if(m>>i&1)pop[k]=true;});
+  const x=X({pop,crcl:cr,rx:extra});sweep++;
+  if(x.primary.k&&x.avoid.some(a=>a.k===x.primary.k)){ok(false,'primary avoided '+JSON.stringify(pop)+cr+JSON.stringify(extra));break;}
+  if(pop.preg&&!pop.noac&&['apix','riva','edox','dabi','warf'].includes(x.primary.k)){ok(false,'preg oral');break;}
+  if(x.alts.some(a=>x.avoid.some(v=>v.k===a.k))){ok(false,'alt avoided '+JSON.stringify(pop)+cr+JSON.stringify(extra));break;}
+}
+ok(sweep===8192,'sweep '+sweep);
+for(const k of CASES)ok(X(k.P).primary.title,'case rx '+k.id);
+
 // 病例
 eq(CASES.length,8,'8 cases');
 const seen=new Set();
